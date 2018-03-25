@@ -1,0 +1,72 @@
+---
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  name: {{ .Values.icp-managment-ingress.name }}
+  labels:
+    app: {{ .Values.icp-managment-ingress.name }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    component: {{ .Values.icp-managment-ingress.name }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  minReadySeconds: 0
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        k8s-app: {{ .Values.icp-managment-ingress.name }}
+        component: {{ .Values.icp-managment-ingress.name }}
+        release: {{ .Release.Name }}
+      annotations:
+        scheduler.alpha.kubernetes.io/critical-pod: ''
+    spec:
+      terminationGracePeriodSeconds: 60
+      containers:
+        - env:
+            - name: CLUSTER_DOMAIN
+              value: {{ .Values.icp-managment-ingress.cluster_domain }}
+            - name: WLP_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.icp-managment-ingress.oidc-secret }}
+                  key: WLP_CLIENT_ID
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
+          image: "{{ .Values.icp-management-ingress.image.repository }}:{{ .Values.icp-management-ingress.image.tag }}"
+          ports:
+            - containerPort: 8080
+              hostPort: 8080
+            - containerPort: 8443
+              hostPort: 8443
+          command: ["/icp-management-ingress"]
+          imagePullPolicy: {{ .Values.icp-management-ingress.image.pullPolicy }}
+          name: icp-management-ingress
+          volumeMounts:
+            - mountPath: "/opt/ibm/router/nginx/html/dcos-metadata"
+              name: router-ui-config
+      volumes:
+        - name: router-ui-config
+          configMap:
+            name: router-ui-config
+      resources:
+{{ toYaml .Values.icp-management-ingress.resources | indent 10 }}
+    {{- if .Values.icp-management-ingress.nodeSelector }}
+      nodeSelector:
+{{ toYaml .Values.icp-management-ingress.nodeSelector | indent 8 }}
+    {{- end }}
+    {{- if .Values.icp-management-ingress.tolerations }}
+      tolerations:
+{{ toYaml .Values.icp-management-ingress.tolerations | indent 8 }}
+    {{- end }}

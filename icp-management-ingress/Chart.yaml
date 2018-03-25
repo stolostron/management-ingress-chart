@@ -1,0 +1,13 @@
+name: icp-management-ingress
+description: ICP control plane ingress controller
+home: https://github.ibm.com/IBMPrivateCloud/icp-nginx-ingress-chart
+keywords:
+- icp
+- ingress
+- nginx
+maintainers:
+- email: icp@ibm.com
+  name: IBM Cloud Private
+sources:
+- https://github.ibm.com/IBMPrivateCloud/icp-nginx-ingress-chart
+version: 2.2.0
