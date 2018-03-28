@@ -2,11 +2,11 @@
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
-  name: {{ .Values.icp-managment-ingress.name }}
+  name: {{ .Values.ingress.name }}
   labels:
-    app: {{ .Values.icp-managment-ingress.name }}
+    app: {{ .Values.ingress.name }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    component: {{ .Values.icp-managment-ingress.name }}
+    component: {{ .Values.ingress.name }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 spec:
@@ -18,8 +18,8 @@ spec:
   template:
     metadata:
       labels:
-        k8s-app: {{ .Values.icp-managment-ingress.name }}
-        component: {{ .Values.icp-managment-ingress.name }}
+        k8s-app: {{ .Values.ingress.name }}
+        component: {{ .Values.ingress.name }}
         release: {{ .Release.Name }}
       annotations:
         scheduler.alpha.kubernetes.io/critical-pod: ''
@@ -28,11 +28,11 @@ spec:
       containers:
         - env:
             - name: CLUSTER_DOMAIN
-              value: {{ .Values.icp-managment-ingress.cluster_domain }}
+              value: {{ .Values.ingress.cluster_domain }}
             - name: WLP_CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.icp-managment-ingress.oidc-secret }}
+                  name: {{ .Values.ingress.oidc_secret }}
                   key: WLP_CLIENT_ID
             - name: POD_NAME
               valueFrom:
@@ -44,14 +44,14 @@ spec:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: metadata.namespace
-          image: "{{ .Values.icp-management-ingress.image.repository }}:{{ .Values.icp-management-ingress.image.tag }}"
+          image: "{{ .Values.ingress.image.repository }}:{{ .Values.ingress.image.tag }}"
           ports:
             - containerPort: 8080
               hostPort: 8080
             - containerPort: 8443
               hostPort: 8443
-          command: ["/icp-management-ingress"]
-          imagePullPolicy: {{ .Values.icp-management-ingress.image.pullPolicy }}
+          command: ["/icp_management_ingress"]
+          imagePullPolicy: {{ .Values.ingress.image.pullPolicy }}
           name: icp-management-ingress
           volumeMounts:
             - mountPath: "/opt/ibm/router/nginx/html/dcos-metadata"
@@ -61,12 +61,12 @@ spec:
           configMap:
             name: router-ui-config
       resources:
-{{ toYaml .Values.icp-management-ingress.resources | indent 10 }}
-    {{- if .Values.icp-management-ingress.nodeSelector }}
+{{ toYaml .Values.ingress.resources | indent 10 }}
+    {{- if .Values.ingress.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.icp-management-ingress.nodeSelector | indent 8 }}
+{{ toYaml .Values.ingress.nodeSelector | indent 8 }}
     {{- end }}
-    {{- if .Values.icp-management-ingress.tolerations }}
+    {{- if .Values.ingress.tolerations }}
       tolerations:
-{{ toYaml .Values.icp-management-ingress.tolerations | indent 8 }}
+{{ toYaml .Values.ingress.tolerations | indent 8 }}
     {{- end }}

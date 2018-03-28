@@ -3,15 +3,15 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.icp-managment-ingress.name }}-config
+  name: {{ .Values.ingress.name }}-config
 data:
   ui-config.json: |-
       {
          "uiConfiguration":{
-            "edition":"{{ .Values.icp-management-ingress.icp_edition }}",
-            "cluster_name":"{{ .Values.icp-management-ingress.cluster_domain }}",
-            "proxy_ip":"{{ .Values.icp-management-ingress.proxy_external_address }}",
-            "access_ip":"{{ .Values.icp-management-ingress.cluster_external_address }}",
-            "kube_apiserver_secure_port":"{{ .Values.icp-management-ingress.apiserver_secure_port }}"
+            "edition":"{{ .Values.ingress.icp_edition }}",
+            "cluster_name":"{{ .Values.ingress.cluster_domain }}",
+            "proxy_ip":"{{ .Values.ingress.proxy_external_address }}",
+            "access_ip":"{{ .Values.ingress.cluster_external_address }}",
+            "kube_apiserver_secure_port":"{{ .Values.ingress.apiserver_secure_port }}"
          }
       }
