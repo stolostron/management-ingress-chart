@@ -1,41 +1,37 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
-ingress:
-  name: icp-management-ingress
-  hostNetwork: false
-  hostPort: true
-  image:
-    repository: ingress
-    tag: 2.2.0
-    pullPolicy: IfNotPresent
+image:
+  repository: ibmcom/icp-management-ingress
+  tag: 2.2.0
+  pullPolicy: IfNotPresent
 
-  resources:
-    limits:
-      cpu: 200m
-      memory: 256Mi
-    requests:
-      cpu: 200m
-      memory: 256Mi
+resources:
+  limits:
+    cpu: 200m
+    memory: 256Mi
+  requests:
+    cpu: 200m
+    memory: 256Mi
 
-  extraArgs: {}
+extraArgs: {}
 
-  config:
-    disable-access-log: 'true'
+config:
+  disable-access-log: 'true'
 
-  nodeSelector:
-    role: 'master'
+nodeSelector:
+  role: 'master'
 
-  tolerations:
-    - key: "dedicated"
-      operator: "Exists"
-      effect: "NoSchedule"
-    - key: "CriticalAddonsOnly"
-      operator: "Exists"
+tolerations:
+  - key: "dedicated"
+    operator: "Exists"
+    effect: "NoSchedule"
+  - key: "CriticalAddonsOnly"
+    operator: "Exists"
 
-  icp_edition: "Enterprise Edition"
-  cluster_domain: "mycluster.icp"
-  oidc_secret: "platform-oidc-credentials"
-  proxy_external_address: "127.0.0.1"
-  cluster_external_address: "127.0.0.1"
-  apiserver_secure_port: "8001"
+icp_edition: "Enterprise Edition"
+cluster_domain: "mycluster.icp"
+oidc_secret: "platform-oidc-credentials"
+proxy_external_address: "127.0.0.1"
+cluster_external_address: "127.0.0.1"
+apiserver_secure_port: "8001"

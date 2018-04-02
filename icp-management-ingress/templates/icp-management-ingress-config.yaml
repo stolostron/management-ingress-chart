@@ -3,15 +3,19 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Values.ingress.name }}-config
+  name: {{ .Release.Name }}-config
+  labels:
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
 data:
   ui-config.json: |-
       {
          "uiConfiguration":{
-            "edition":"{{ .Values.ingress.icp_edition }}",
-            "cluster_name":"{{ .Values.ingress.cluster_domain }}",
-            "proxy_ip":"{{ .Values.ingress.proxy_external_address }}",
-            "access_ip":"{{ .Values.ingress.cluster_external_address }}",
-            "kube_apiserver_secure_port":"{{ .Values.ingress.apiserver_secure_port }}"
+            "edition":"{{ .Values.icp_edition }}",
+            "cluster_name":"{{ .Values.cluster_domain }}",
+            "proxy_ip":"{{ .Values.proxy_external_address }}",
+            "access_ip":"{{ .Values.cluster_external_address }}",
+            "kube_apiserver_secure_port":"{{ .Values.apiserver_secure_port }}"
          }
       }

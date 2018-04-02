@@ -2,11 +2,11 @@
 apiVersion: extensions/v1beta1
 kind: DaemonSet
 metadata:
-  name: {{ .Values.ingress.name }}
+  name: {{ .Release.Name }}
   labels:
-    app: {{ .Values.ingress.name }}
+    app: {{ .Release.Name }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
-    component: {{ .Values.ingress.name }}
+    component: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
 spec:
@@ -18,8 +18,8 @@ spec:
   template:
     metadata:
       labels:
-        k8s-app: {{ .Values.ingress.name }}
-        component: {{ .Values.ingress.name }}
+        k8s-app: {{ .Release.Name }}
+        component: {{ .Release.Name }}
         release: {{ .Release.Name }}
       annotations:
         scheduler.alpha.kubernetes.io/critical-pod: ''
@@ -28,11 +28,11 @@ spec:
       containers:
         - env:
             - name: CLUSTER_DOMAIN
-              value: {{ .Values.ingress.cluster_domain }}
+              value: {{ .Values.cluster_domain }}
             - name: WLP_CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: {{ .Values.ingress.oidc_secret }}
+                  name: {{ .Values.oidc_secret }}
                   key: WLP_CLIENT_ID
             - name: POD_NAME
               valueFrom:
@@ -44,14 +44,14 @@ spec:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: metadata.namespace
-          image: "{{ .Values.ingress.image.repository }}:{{ .Values.ingress.image.tag }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
             - containerPort: 8080
               hostPort: 8080
             - containerPort: 8443
               hostPort: 8443
           command: ["/icp_management_ingress"]
-          imagePullPolicy: {{ .Values.ingress.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: icp-management-ingress
           volumeMounts:
             - mountPath: "/opt/ibm/router/nginx/html/dcos-metadata"
@@ -59,14 +59,14 @@ spec:
       volumes:
         - name: router-ui-config
           configMap:
-            name: router-ui-config
+            name: {{ .Release.Name }}-config
       resources:
-{{ toYaml .Values.ingress.resources | indent 10 }}
-    {{- if .Values.ingress.nodeSelector }}
+{{ toYaml .Values.resources | indent 10 }}
+    {{- if .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.ingress.nodeSelector | indent 8 }}
+{{ toYaml .Values.nodeSelector | indent 8 }}
     {{- end }}
-    {{- if .Values.ingress.tolerations }}
+    {{- if .Values.tolerations }}
       tolerations:
-{{ toYaml .Values.ingress.tolerations | indent 8 }}
+{{ toYaml .Values.tolerations | indent 8 }}
     {{- end }}

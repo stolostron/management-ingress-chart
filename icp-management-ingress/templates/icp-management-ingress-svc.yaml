@@ -4,12 +4,14 @@ kind: Service
 metadata:
   labels:
     kubernetes.io/cluster_service: 'true'
-    kubernetes.io/name: {{ .Values.ingress.name }}
-  name: {{ .Values.ingress.name }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+  name: {{ .Release.Name }}
 spec:
   ports:
     - name: https
       port: 8443
       targetPort: 8443
   selector:
-    k8s_app: {{ .Values.ingress.name }}
+    k8s_app: {{ .Release.Name }}
