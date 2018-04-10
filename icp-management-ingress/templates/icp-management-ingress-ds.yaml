@@ -50,7 +50,7 @@ spec:
               hostPort: 8080
             - containerPort: 8443
               hostPort: 8443
-          command: ["/icp_management_ingress"]
+          command: ["/icp-management-ingress"]
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: icp-management-ingress
           volumeMounts:
