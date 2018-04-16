@@ -5,7 +5,6 @@ keywords:
 - icp
 - ingress
 - nginx
-- IcpClusterResource
 maintainers:
 - email: icp@ibm.com
   name: IBM Cloud Private
