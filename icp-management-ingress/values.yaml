@@ -20,7 +20,7 @@ config:
   disable-access-log: 'true'
 
 nodeSelector:
-  role: 'master'
+  master: 'true'
 
 tolerations:
   - key: "dedicated"
