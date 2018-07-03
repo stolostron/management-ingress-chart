@@ -56,12 +56,12 @@ spec:
           volumeMounts:
             - mountPath: "/opt/ibm/router/nginx/html/dcos-metadata"
               name: router-ui-config
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
       volumes:
         - name: router-ui-config
           configMap:
             name: {{ .Release.Name }}-config
-      resources:
-{{ toYaml .Values.resources | indent 10 }}
     {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
