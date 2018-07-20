@@ -2,8 +2,9 @@ include Configfile
 
 CHART_NAME ?= icp-management-ingress
 VERSION ?= $(shell grep version ./$(CHART_NAME)/Chart.yaml | awk '{print $$2}')
+UPLOAD_VERSION ?=99.99.99
 FILENAME ?= ${CHART_NAME}-${VERSION}.tgz
-
+UPLOAD_FILENAME ?= ${CHART_NAME}-${UPLOAD_VERSION}.tgz
 .PHONY: build lint setup
 
 default: build
@@ -27,7 +28,9 @@ publish: build
 		echo "File not found! - exitin"; \
 		exit; \
 	fi
+	helm package --version $(UPLOAD_VERSION) $(CHART_NAME)
 	# And push it to artifactory
+	curl -H 'X-JFrog-Art-Api: $(ARTIFACTORY_KEY)' -T $(UPLOAD_FILENAME) "https://na.artifactory.swg-devops.com/artifactory/hyc-cloud-private-integration-helm-local/$(UPLOAD_FILENAME)"
 	curl -H 'X-JFrog-Art-Api: $(ARTIFACTORY_TOKEN)' -T $(FILENAME) "https://na.artifactory.swg-devops.com/artifactory/hyc-cloud-private-development-helm-local/$(FILENAME)"
 	@echo "DONE"
 
