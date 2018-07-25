@@ -1,0 +1,17 @@
+{{- if not .Values.tls_secret }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-certificate-config
+  annotations:
+    helm.sh/hook: pre-install
+    helm.sh/hook-weight: "4"
+    helm.sh/hook-delete-policy: hook-failed
+  labels:
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+data:
+  certificate.yaml: |-
+    {{- include "cert.yaml.tpl" . | indent 4}}
+{{- end }}

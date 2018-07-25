@@ -47,10 +47,16 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
             - containerPort: 8080
-              hostPort: 8080
+              hostPort: {{ .Values.http_port }}
             - containerPort: 8443
-              hostPort: 8443
-          command: ["/icp-management-ingress"]
+              hostPort: {{ .Values.https_port }}
+          command:
+            - /icp-management-ingress
+            {{- if .Values.tls_secret }}
+            - --default-ssl-certificate=kube-system/{{ .Values.tls_secret }}
+            {{- else }}
+            - --default-ssl-certificate=kube-system/{{ .Release.Name }}-cert
+            {{- end }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: icp-management-ingress
           volumeMounts:

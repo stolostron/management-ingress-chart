@@ -11,4 +11,4 @@ maintainers:
   name: IBM Cloud Private
 sources:
 - https://github.ibm.com/IBMPrivateCloud/icp-nginx-ingress-chart
-version: 2.2.0
+version: 2.2.1

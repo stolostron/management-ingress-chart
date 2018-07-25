@@ -1,0 +1,19 @@
+{{ define "cert.yaml.tpl" }}
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: {{ .Release.Name }}-cert
+  namespace: {{ .Release.Namespace }}
+  labels:
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  secretName: {{ .Release.Name }}-cert
+  issuerRef:
+    name: icp-ca-issuer
+    kind: ClusterIssuer
+  commonName: "{{ .Values.certificate.CN }}"
+  dnsNames:
+{{ toYaml .Values.certificate.SANs | indent 4 }}
+{{ end }}
