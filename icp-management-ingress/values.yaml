@@ -3,15 +3,18 @@
 
 image:
   repository: ibmcom/icp-management-ingress
-  tag: 2.2.0
+  tag: 2.2.1
+  pullPolicy: IfNotPresent
+
+hyperkube:
+  repository: ibmcom/hyperkube
+  tag: v1.11.1
   pullPolicy: IfNotPresent
 
 resources:
   requests:
     cpu: 200m
     memory: 256Mi
-
-extraArgs: {}
 
 config:
   disable-access-log: 'true'
@@ -23,8 +26,6 @@ tolerations:
   - key: "dedicated"
     operator: "Exists"
     effect: "NoSchedule"
-  - key: "CriticalAddonsOnly"
-    operator: "Exists"
 
 icp_edition: "Enterprise Edition"
 cluster_domain: "mycluster.icp"
@@ -32,3 +33,13 @@ oidc_secret: "platform-oidc-credentials"
 proxy_external_address: "127.0.0.1"
 cluster_external_address: "127.0.0.1"
 apiserver_secure_port: "8001"
+http_port: 8080
+https_port: 8443
+tls_secret: ''
+
+certificate:
+  CN: mycluster.icp
+  SANs:
+    - "IP:127.0.0.1"
+    - "DNS:localhost"
+    - "DNS:mycluster.icp"
