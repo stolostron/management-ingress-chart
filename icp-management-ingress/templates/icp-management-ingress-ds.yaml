@@ -47,9 +47,9 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
             - containerPort: 8080
-              hostPort: {{ .Values.http_port }}
+              hostPort: {{ .Values.httpPort }}
             - containerPort: 8443
-              hostPort: {{ .Values.https_port }}
+              hostPort: {{ .Values.httpsPort }}
           command:
             - /icp-management-ingress
             {{- if .Values.tls_secret }}
