@@ -35,7 +35,7 @@ cluster_external_address: "127.0.0.1"
 apiserver_secure_port: "8001"
 httpPort: 8080
 httpsPort: 8443
-tls_secret: 'kube-system/router-certs'
+tls_secret: "router-certs"
 
 certificate:
   CN: mycluster.icp
