@@ -46,9 +46,9 @@ spec:
                   fieldPath: metadata.namespace
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
-            - containerPort: 8080
+            - containerPort:  {{ .Values.httpPort }}
               hostPort: {{ .Values.httpPort }}
-            - containerPort: 8443
+            - containerPort: {{ .Values.httpsPort }}
               hostPort: {{ .Values.httpsPort }}
           command:
             - /icp-management-ingress
@@ -57,6 +57,8 @@ spec:
             {{- else }}
             - --default-ssl-certificate=kube-system/{{ .Release.Name }}-cert
             {{- end }}
+            - --http-port={{ .Values.httpPort }}
+            - --https-port={{ .Values.httpsPort }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           name: icp-management-ingress
           volumeMounts:
