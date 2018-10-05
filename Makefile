@@ -30,7 +30,7 @@ publish: build
 	fi
 	helm package --version $(UPLOAD_VERSION) $(CHART_NAME)
 	# And push it to artifactory
-	curl -H 'X-JFrog-Art-Api: $(ARTIFACTORY_KEY)' -T $(UPLOAD_FILENAME) "https://na.artifactory.swg-devops.com/artifactory/hyc-cloud-private-integration-helm-local/$(UPLOAD_FILENAME)"
+	curl -H 'X-JFrog-Art-Api: $(ARTIFACTORY_TOKEN)' -T $(UPLOAD_FILENAME) "https://na.artifactory.swg-devops.com/artifactory/hyc-cloud-private-integration-helm-local/$(UPLOAD_FILENAME)"
 	curl -H 'X-JFrog-Art-Api: $(ARTIFACTORY_TOKEN)' -T $(FILENAME) "https://na.artifactory.swg-devops.com/artifactory/hyc-cloud-private-development-helm-local/$(FILENAME)"
 	@echo "DONE"
 
