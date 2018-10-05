@@ -3,12 +3,12 @@
 
 image:
   repository: ibmcom/icp-management-ingress
-  tag: 2.2.1
+  tag: latest
   pullPolicy: IfNotPresent
 
 kubectl:
   repository: ibmcom/kubectl
-  tag: v1.11.1
+  tag: v1.11.3
   pullPolicy: IfNotPresent
 
 resources:
