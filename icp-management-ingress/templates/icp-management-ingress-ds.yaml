@@ -44,7 +44,11 @@ spec:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: metadata.namespace
+          {{- if .Values.fips_enabled }}
+          image: "{{ .Values.image_fips.repository }}:{{ .Values.image_fips.tag }}"
+          {{- else }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          {{- end }}
           ports:
             - containerPort:  {{ .Values.httpPort }}
               hostPort: {{ .Values.httpPort }}

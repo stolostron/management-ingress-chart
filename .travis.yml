@@ -36,14 +36,15 @@ before_script:
 script:
   - |
     if [[ "$TRAVIS_EVENT_TYPE" == "pull_request" ]]; then
-        make init
-        make keys
-        make ${TARGET}
-        make ${TARGET}:config
-        make pause
-        make setup-dependencies
-        make run-${TEST_SUITE}-tests
-        make ${TARGET}:clean
+        echo "skip testing..."
+        #make init
+        #make keys
+        #make ${TARGET}
+        #make ${TARGET}:config
+        #make pause
+        #make setup-dependencies
+        #make run-${TEST_SUITE}-tests
+        #make ${TARGET}:clean
     else
         make publish
     fi
