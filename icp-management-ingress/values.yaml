@@ -2,12 +2,12 @@
 # Declare variables to be passed into your templates.
 image:
   repository: ibmcom/icp-management-ingress
-  tag: latest
+  tag: 2.2.2
   pullPolicy: IfNotPresent
 
 image_fips:
   repository: ibmcom/icp-management-ingress
-  tag: latest-fips
+  tag: 2.2.2-fips
   pullPolicy: IfNotPresent
 
 kubectl:
