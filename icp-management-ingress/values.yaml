@@ -40,6 +40,7 @@ apiserver_secure_port: "8001"
 httpPort: 8080
 httpsPort: 8443
 tls_secret: "router-certs"
+fips_enabled: false
 
 certificate:
   CN: mycluster.icp
