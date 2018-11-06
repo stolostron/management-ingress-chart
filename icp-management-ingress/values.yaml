@@ -36,6 +36,8 @@ cluster_domain: "mycluster.icp"
 oidc_secret: "platform-oidc-credentials"
 proxy_external_address: "127.0.0.1"
 cluster_external_address: "127.0.0.1"
+host_headers_check_enabled: true
+allowed_host_headers: "127.0.0.1 mycluster.icp icp-management-ingress"
 apiserver_secure_port: "8001"
 httpPort: 8080
 httpsPort: 8443
