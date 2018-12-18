@@ -32,7 +32,7 @@ spec:
             - name: HOST_HEADERS_CHECK_ENABLED
               value: "{{ .Values.host_headers_check_enabled }}"
             - name: ALLOWED_HOST_HEADERS
-              value: {{ .Values.allowed_host_headers }}
+              value: "{{ .Values.allowed_host_headers }}"
             - name: HTTPS_PORT
               value: "{{ .Values.httpsPort }}"
             - name: WLP_CLIENT_ID
