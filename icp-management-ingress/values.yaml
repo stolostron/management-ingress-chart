@@ -5,11 +5,6 @@ image:
   tag: 2.2.2
   pullPolicy: IfNotPresent
 
-image_fips:
-  repository: ibmcom/icp-management-ingress
-  tag: 2.2.2-fips
-  pullPolicy: IfNotPresent
-
 kubectl:
   repository: ibmcom/kubectl
   tag: v1.11.3
