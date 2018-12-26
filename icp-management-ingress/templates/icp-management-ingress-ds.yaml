@@ -50,11 +50,13 @@ spec:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: metadata.namespace
+            - name: FIPS_ENABLED
           {{- if .Values.fips_enabled }}
-          image: "{{ .Values.image_fips.repository }}:{{ .Values.image_fips.tag }}"
+              value: "true"
           {{- else }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+              value: "false"
           {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
             - containerPort:  {{ .Values.httpPort }}
               hostPort: {{ .Values.httpPort }}
