@@ -34,6 +34,18 @@ publish: build
 	curl -H 'X-JFrog-Art-Api: $(ARTIFACTORY_TOKEN)' -T $(FILENAME) "https://na.artifactory.swg-devops.com/artifactory/hyc-cloud-private-integration-helm-local/$(FILENAME)"
 	@echo "DONE"
 
+publish-branch: build
+	# We need to get the tar file, does it exist
+	@echo "Version: ${VERSION}"
+	if [ ! -f ./$(FILENAME) ]; then \
+		echo "File not found! - exitin"; \
+		exit; \
+	fi
+	helm package --version $(UPLOAD_VERSION) $(CHART_NAME)
+	# And push it to artifactory
+	curl -H 'X-JFrog-Art-Api: $(ARTIFACTORY_TOKEN)' -T $(FILENAME) "https://na.artifactory.swg-devops.com/artifactory/hyc-cloud-private-integration-helm-local/$(FILENAME)"
+	@echo "DONE"
+
 include Makefile.docker
 
 include Makefile.test

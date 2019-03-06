@@ -45,8 +45,10 @@ script:
         #make setup-dependencies
         #make run-${TEST_SUITE}-tests
         #make ${TARGET}:clean
-    else
+    elif [ "$TRAVIS_BRANCH" = "master" ]; then
         make publish
+    else
+        make publish-branch
     fi
 after_script:
 - make ${TARGET}:clean
