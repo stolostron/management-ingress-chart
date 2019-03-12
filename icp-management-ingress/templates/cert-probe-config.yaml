@@ -1,0 +1,20 @@
+# Licensed Materials - Property of IBM
+# 5737-E67
+# @ Copyright IBM Corporation 2016, 2018. All Rights Reserved.
+# US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .Release.Name }}-cert-probe"
+  namespace: {{ .Release.Namespace }}
+  labels:
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+    component: "cert-probe-config"
+data:
+  app.json: |-
+{{ tpl (.Files.Get "cert-probe/app.json.tpl") . | indent 4 }}
+  log4js.json: |-
+{{ tpl (.Files.Get "cert-probe/log4js.json.tpl") . | indent 4 }}

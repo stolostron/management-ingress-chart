@@ -5,11 +5,6 @@ image:
   tag: 2.2.3
   pullPolicy: IfNotPresent
 
-kubectl:
-  repository: ibmcom/kubectl
-  tag: v1.12.4
-  pullPolicy: IfNotPresent
-
 resources:
   requests:
     cpu: 200m
@@ -26,22 +21,37 @@ tolerations:
     operator: "Exists"
     effect: "NoSchedule"
 
-icp_edition: "Enterprise Edition"
-cluster_domain: "mycluster.icp"
+cert:
+  issuer:
+    name: icp-ca-issuer
+    kind: ClusterIssuer
+  duration: 300h
+  renewBefore: 24h
+
+probe:
+  repository: ibmcom/file-freshness-probe
+  tag: 0.1.0
+  periodSeconds: 10
+  port: 9601
+  reportWhen: "AnyFileChanged"
+
+## Cluster info
+cluster_domain: "cluster.local"
+cluster_ca_domain: "mycluster.icp"
 oidc_secret: "platform-oidc-credentials"
-proxy_external_address: "127.0.0.1"
-cluster_external_address: "127.0.0.1"
-host_headers_check_enabled: false
+proxy_address: "127.0.0.1"
+cluster_address: "127.0.0.1"
+
+## Whether to enable host header check
+host_headers_check_enabled: true
 allowed_host_headers: "127.0.0.1 mycluster.icp icp-management-ingress"
-apiserver_secure_port: "8001"
+
+## Listening port of nginx backend
 httpPort: 8080
 httpsPort: 8443
-tls_secret: "router-certs"
-fips_enabled: false
 
-certificate:
-  CN: mycluster.icp
-  SANs:
-    - "127.0.0.1"
-    - "localhost"
-    - "mycluster.icp"
+## Whether to use BYOK certificates
+# tls_secret: "router-certs"
+
+## Whether to enable fips cipher suites
+fips_enabled: false
