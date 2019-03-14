@@ -1,0 +1,37 @@
+# Licensed Materials - Property of IBM
+# 5737-E67
+# @ Copyright IBM Corporation 2016, 2019 All Rights Reserved
+# US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+
+---
+
+{{- $altName1 := printf "%s.%s" .Release.Name .Release.Namespace }}
+{{- $altName2 := printf "%s.%s.svc" .Release.Name .Release.Namespace }}
+
+{{- if not .Values.tls_secret }}
+apiVersion: certmanager.k8s.io/v1alpha1
+kind: Certificate
+metadata:
+  name: {{ .Release.Name }}-cert
+  namespace: {{ .Release.Namespace }}
+  labels:
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+spec:
+  secretName: {{ .Release.Name }}-tls-secret
+  issuerRef:
+    name: {{ .Values.cert.issuer.name }}
+    kind: {{ .Values.cert.issuer.kind }}
+  commonName: "{{ .Release.Name }}"
+  dnsNames:
+  - 127.0.0.1
+  - localhost
+  - {{ .Values.cluster_ca_domain }}
+  - {{ .Values.cluster_address }}
+  - {{ .Values.proxy_address }}
+  - {{ $altName1 }}
+  - {{ $altName2 }}
+  duration: {{ .Values.cert.duration }}
+  renewBefore: {{ .Values.cert.renewBefore }}
+{{- end -}}
