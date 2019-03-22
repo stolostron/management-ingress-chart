@@ -3,6 +3,7 @@
 # @ Copyright IBM Corporation 2016, 2018. All Rights Reserved.
 # US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 
+{{- if not .Values.tls_secret }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -18,3 +19,4 @@ data:
 {{ tpl (.Files.Get "cert-probe/app.json.tpl") . | indent 4 }}
   log4js.json: |-
 {{ tpl (.Files.Get "cert-probe/log4js.json.tpl") . | indent 4 }}
+{{- end -}}
