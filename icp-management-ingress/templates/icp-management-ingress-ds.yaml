@@ -76,25 +76,7 @@ spec:
           resources:
 {{ toYaml .Values.resources | indent 12 }}
       {{- if not .Values.tls_secret }}
-        - name: probe
-          image: "{{ .Values.probe.repository }}:{{ .Values.probe.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          volumeMounts:
-          - mountPath: /opt/ibm/file-freshness-probe/config
-            name: cert-probe-config
-          - name: certs
-            mountPath: /etc/router/certs
-          livenessProbe:
-            httpGet:
-              path: /health
-              port: 9601
-            #initialDelaySeconds: 300
-            initialDelaySeconds: 1
-            periodSeconds: {{ .Values.probe.periodSeconds }}
       volumes:
-        - name: cert-probe-config
-          configMap:
-            name: "{{ .Release.Name }}-cert-probe"
         - name: certs
           secret:
             secretName: "{{ .Release.Name }}-tls-secret"
