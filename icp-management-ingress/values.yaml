@@ -28,13 +28,6 @@ cert:
   duration: 300h
   renewBefore: 24h
 
-probe:
-  repository: ibmcom/file-freshness-probe
-  tag: 0.1.0
-  periodSeconds: 10
-  port: 9601
-  reportWhen: "AnyFileChanged"
-
 ## Cluster info
 cluster_domain: "cluster.local"
 cluster_ca_domain: "mycluster.icp"
