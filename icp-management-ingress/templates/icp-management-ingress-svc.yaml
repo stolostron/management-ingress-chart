@@ -16,6 +16,11 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
+    {{- if .Values.enable_impersonation }}
+    - name: https-443
+      port: 443
+      targetPort: {{ .Values.apiserver_secure_port }}
+    {{- end }}
     - name: https
       port: {{ .Values.httpsPort }}
       targetPort: {{ .Values.httpsPort }}

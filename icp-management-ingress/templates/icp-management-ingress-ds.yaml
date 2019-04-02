@@ -29,6 +29,12 @@ spec:
     spec:
       containers:
         - env:
+            - name: ENABLE_IMPERSONATION
+              value: "{{ .Values.enable_impersonation }}"
+            - name: APISERVER_SECURE_PORT
+              value: "{{ .Values.apiserver_secure_port }}"
+            - name: OIDC_ISSUER_URL
+              value: "https://{{ .Values.cluster_ca_domain }}:9443/oidc/endpoint/OP"
             - name: CLUSTER_DOMAIN
               value: {{ .Values.cluster_domain }}
             - name: HOST_HEADERS_CHECK_ENABLED
@@ -58,11 +64,18 @@ spec:
           {{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
+            {{- if .Values.enable_impersonation }}
+            - containerPort: {{ .Values.apiserver_secure_port }}
+              hostPort: {{ .Values.apiserver_secure_port }}
+            {{- end }}
             - containerPort:  {{ .Values.httpPort }}
               hostPort: {{ .Values.httpPort }}
             - containerPort: {{ .Values.httpsPort }}
               hostPort: {{ .Values.httpsPort }}
           command:
+            {{- if .Values.enable_impersonation }}
+            - /run.sh
+            {{- end }}
             - /icp-management-ingress
             {{- if .Values.tls_secret }}
             - --default-ssl-certificate=kube-system/{{ .Values.tls_secret }}
@@ -75,12 +88,16 @@ spec:
           name: icp-management-ingress
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-      {{- if not .Values.tls_secret }}
+    {{- if .Values.enable_impersonation }}
+          volumeMounts:
+          - mountPath: /var/run/secrets/platform-auth
+            name: platform-auth-secret
       volumes:
-        - name: certs
+        - name: platform-auth-secret
           secret:
-            secretName: "{{ .Release.Name }}-tls-secret"
-      {{- end -}}
+            defaultMode: 420
+            secretName: platform-auth-secret
+    {{- end }}
     {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}

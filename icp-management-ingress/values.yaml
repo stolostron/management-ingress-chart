@@ -48,3 +48,9 @@ httpsPort: 8443
 
 ## Whether to enable fips cipher suites
 fips_enabled: false
+
+## Whether to do impersonation
+enable_impersonation: false
+
+## Kubernetes port
+apiserver_secure_port: 8001
