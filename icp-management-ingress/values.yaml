@@ -43,6 +43,12 @@ allowed_host_headers: "127.0.0.1 mycluster.icp icp-management-ingress"
 httpPort: 8080
 httpsPort: 8443
 
+## Use host port
+hostPort: true
+
+## Use host network
+hostNetwork: false
+
 ## Whether to use BYOK certificates
 # tls_secret: "router-certs"
 

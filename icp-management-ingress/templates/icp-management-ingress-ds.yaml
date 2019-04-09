@@ -27,6 +27,10 @@ spec:
         component: {{ .Release.Name }}
         release: {{ .Release.Name }}
     spec:
+      hostNetwork: {{ .Values.hostNetwork }}
+{{- if .Values.hostNetwork }}
+      dnsPolicy: ClusterFirstWithHostNet
+{{- end }}
       containers:
         - env:
             - name: ENABLE_IMPERSONATION
@@ -69,9 +73,13 @@ spec:
               hostPort: {{ .Values.apiserver_secure_port }}
             {{- end }}
             - containerPort:  {{ .Values.httpPort }}
+          {{- if .Values.hostPort }}
               hostPort: {{ .Values.httpPort }}
+          {{- end }}
             - containerPort: {{ .Values.httpsPort }}
+          {{- if .Values.hostPort }}
               hostPort: {{ .Values.httpsPort }}
+          {{- end }}
           command:
             {{- if .Values.enable_impersonation }}
             - /run.sh
