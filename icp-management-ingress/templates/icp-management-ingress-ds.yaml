@@ -27,6 +27,10 @@ spec:
         component: {{ .Release.Name }}
         release: {{ .Release.Name }}
     spec:
+      hostNetwork: {{ .Values.hostNetwork }}
+{{- if .Values.hostNetwork }}
+      dnsPolicy: ClusterFirstWithHostNet
+{{- end }}
       containers:
         - env:
             - name: CLUSTER_DOMAIN
@@ -59,9 +63,13 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
             - containerPort:  {{ .Values.httpPort }}
+          {{- if .Values.hostPort }}
               hostPort: {{ .Values.httpPort }}
+          {{- end }}
             - containerPort: {{ .Values.httpsPort }}
+          {{- if .Values.hostPort }}
               hostPort: {{ .Values.httpsPort }}
+          {{- end }}
           command:
             - /icp-management-ingress
             {{- if .Values.tls_secret }}
