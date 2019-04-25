@@ -38,7 +38,10 @@ spec:
             - name: APISERVER_SECURE_PORT
               value: "{{ .Values.apiserver_secure_port }}"
             - name: OIDC_ISSUER_URL
-              value: "https://{{ .Values.cluster_ca_domain }}:9443/oidc/endpoint/OP"
+              valueFrom:
+                configMapKeyRef:
+                  name: platform-auth-idp
+                  key: OIDC_ISSUER_URL
             - name: CLUSTER_DOMAIN
               value: {{ .Values.cluster_domain }}
             - name: HOST_HEADERS_CHECK_ENABLED
