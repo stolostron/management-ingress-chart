@@ -49,9 +49,6 @@ hostPort: true
 ## Use host network
 hostNetwork: false
 
-## Whether to use BYOK certificates
-# tls_secret: "router-certs"
-
 ## Whether to enable fips cipher suites
 fips_enabled: false
 

@@ -85,11 +85,7 @@ spec:
             - /run.sh
             {{- end }}
             - /icp-management-ingress
-            {{- if .Values.tls_secret }}
-            - --default-ssl-certificate=kube-system/{{ .Values.tls_secret }}
-            {{- else }}
             - --default-ssl-certificate=kube-system/{{ .Release.Name }}-tls-secret
-            {{- end }}
             - --http-port={{ .Values.httpPort }}
             - --https-port={{ .Values.httpsPort }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
