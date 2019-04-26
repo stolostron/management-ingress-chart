@@ -57,3 +57,6 @@ enable_impersonation: false
 
 ## Kubernetes port
 apiserver_secure_port: 8001
+
+## Issuer url based on ipv4 or ipv6
+oidc_issuer_url: 'https://127.0.0.1:9443/oidc/endpoint/OP'
