@@ -25,7 +25,7 @@ cert:
   issuer:
     name: icp-ca-issuer
     kind: ClusterIssuer
-  duration: 300h
+  duration: 2160h
   renewBefore: 24h
 
 ## Cluster info
