@@ -92,16 +92,24 @@ spec:
           name: icp-management-ingress
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-    {{- if .Values.enable_impersonation }}
           volumeMounts:
+          {{- if .Values.enable_impersonation }}
           - mountPath: /var/run/secrets/platform-auth
             name: platform-auth-secret
+          {{- end }}
+          - mountPath: /var/run/secrets/tls
+            name: tls-secret
       volumes:
+        {{- if .Values.enable_impersonation }}
         - name: platform-auth-secret
           secret:
             defaultMode: 420
             secretName: platform-auth-secret
-    {{- end }}
+        {{- end }}
+        - name: tls-secret
+          secret:
+            defaultMode: 420
+            secretName: {{ .Release.Name }}-tls-secret
     {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
