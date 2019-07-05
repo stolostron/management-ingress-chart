@@ -32,8 +32,8 @@ cert:
 cluster_domain: "cluster.local"
 cluster_ca_domain: "mycluster.icp"
 oidc_secret: "platform-oidc-credentials"
-proxy_address: "127.0.0.1"
 cluster_address: "127.0.0.1"
+cluster_internal_address: "127.0.0.1"
 
 ## Use BYO cert
 # tls_secret: icp-management-ingress-tls-secret

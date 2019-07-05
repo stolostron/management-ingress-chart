@@ -23,23 +23,22 @@ spec:
   issuerRef:
     name: {{ .Values.cert.issuer.name }}
     kind: {{ .Values.cert.issuer.kind }}
-  commonName: "{{ .Release.Name }}"
+  commonName: "{{ .Values.cluster_ca_domain }}"
   dnsNames:
-  - {{ .Values.cluster_ca_domain }}
   - {{ $altName1 }}
   - {{ $altName2 }}
   {{ if .Values.cluster_address | regexMatch "^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,62}$" }}
   - {{ .Values.cluster_address }}
   {{ end }}
-  {{ if .Values.proxy_address | regexMatch "^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,62}$" }}
-  - {{ .Values.proxy_address }}
+  {{ if .Values.cluster_internal_address | regexMatch "^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,62}$" }}
+  - {{ .Values.cluster_internal_address }}
   {{ end }}
   ipAddresses:
   {{ if not (.Values.cluster_address | regexMatch "^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,62}$") }}
   - {{ .Values.cluster_address }}
   {{ end }}
-  {{ if not (.Values.proxy_address | regexMatch "^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,62}$") }}
-  - {{ .Values.proxy_address }}
+  {{ if not (.Values.cluster_internal_address | regexMatch "^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,62}$") }}
+  - {{ .Values.cluster_internal_address }}
   {{ end }}
   duration: {{ .Values.cert.duration }}
   renewBefore: {{ .Values.cert.renewBefore }}
