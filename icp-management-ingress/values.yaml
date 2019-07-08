@@ -35,6 +35,9 @@ oidc_secret: "platform-oidc-credentials"
 proxy_address: "127.0.0.1"
 cluster_address: "127.0.0.1"
 
+## Use BYO cert
+# tls_secret: icp-management-ingress-tls-secret
+
 ## Whether to enable host header check
 host_headers_check_enabled: true
 allowed_host_headers: "127.0.0.1 mycluster.icp icp-management-ingress iam-token-service"
