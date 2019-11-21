@@ -1,61 +1,54 @@
-os:
-  - linux
+---
+dist: xenial
+sudo: required
+group: bluezone
+language: generic
 
-services:
-  - docker
-
-branches:
-  only:
-    - master
-    - /^[0-9]+\..*$/
-    - /^v[0-9]+\..*$/
-    - /^release-[0-9]+\..*$/
-
+# Environment variables (setup endpoint to IBM github)
 env:
   global:
-    - CICD_HTTP_LOGGING_PORT=30333
-    - CICD_LOGGING_SERVER=9.42.134.146
-  matrix:
-  - TARGET=deploy-amd64-openstack TEST_SUITE=daily
-  #- TARGET=deploy-power-openstack TEST_SUITE=daily
+  - OCTOKIT_API_ENDPOINT="https://github.ibm.com/api/v3/"
 
 before_install:
-  - printf "\n9.37.33.37  rtpstack5.rtp.raleigh.ibm.com" | sudo tee -a /etc/hosts
-  - source travis-env.sh
-
-install:
-  - docker info
-
-before_script:
-  - make tool
-  - make build
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 3
-
-script:
-  - |
-    if [[ "$TRAVIS_EVENT_TYPE" == "pull_request" ]]; then
-        echo "skip testing..."
-        #make init
-        #make keys
-        #make ${TARGET}
-        #make ${TARGET}:config
-        #make pause
-        #make setup-dependencies
-        #make run-${TEST_SUITE}-tests
-        #make ${TARGET}:clean
-    elif [ "$TRAVIS_BRANCH" = "master" ]; then
-        make publish
-    else
-        make publish-branch
+  # Clone build tools & set tools path for follow on processing
+  # The clone command will use the ssh key from the travis settings to clone the repo from github.ibm.com
+  - if [[ ! -z "$BRANCH_OVERRIDE" ]] ; then
+      git clone -b $BRANCH_OVERRIDE git@github.ibm.com:ibmprivatecloud/content-tools;
+    else 
+      git clone git@github.ibm.com:ibmprivatecloud/content-tools;
     fi
-after_script:
-- make ${TARGET}:clean
+  - export toolsPath=`pwd`/content-tools/travis-tools/
+  # Install dependencies & determine chart delta 
+  - $toolsPath/build/bin/installDependencies.sh | true
+  - export changeList=`$toolsPath/build/bin/determineChartDelta.sh | tee determineChartDelta.out | grep 'return determineChartDelta:' | cut -f2 -d:` && cat determineChartDelta.out
+   
+install:
+  # Package for release 
+  - if [[ ! -z "$TRAVIS_TAG" ]] ; then $toolsPath/release/bin/package.sh; fi
+  # Lint and install/test charts (if cv-tests exist)
+  - $toolsPath/cv-test/bin/validateContent.sh | true
 
-after_success:
-- make log:pass
+script: 
+  - echo "Override default script"
+  - make tool
+  - make build || travis_terminate 1
+  - |
+    if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
+        make release
+    fi
 
-after_failure:
-- make log:fail
-
+deploy:
+  # scp helm repo(s) to location identified (Note: SSHPASS env variable must contain password)
+  - provider: script
+    skip_cleanup: true
+    script:  $toolsPath/build/bin/deployHelmRepo.sh
+    on:
+      all_branches: true
+  # Publish tagged release
+  - provider: releases
+    skip_cleanup: true
+    api_key: $GITHUB_TOKEN
+    file_glob: true
+    file: repo/stable/*
+    on:
+      tags: true

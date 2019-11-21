@@ -4,7 +4,7 @@
 # US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 
 ---
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: DaemonSet
 metadata:
   name: {{ .Release.Name }}
@@ -15,17 +15,45 @@ metadata:
     component: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}
 spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      release: {{ .Release.Name }}
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      chart: {{ .Chart.Name }}
+      heritage: {{ .Release.Service }}
+      k8s-app: {{ .Release.Name }}
+      component: {{ .Release.Name }}
+      release: {{ .Release.Name }}
   template:
     metadata:
+      annotations:
+        seccomp.security.alpha.kubernetes.io/pod: docker/default
+        productID: "{{ .Chart.Name }}_{{ .Chart.Version }}_00000"
+        productName: "{{ .Chart.Name }}"
+        productVersion: "{{ .Chart.Version }}"
       labels:
+        app: {{ .Release.Name }}
+        chart: {{ .Chart.Name }}
+        heritage: {{ .Release.Service }}
         k8s-app: {{ .Release.Name }}
         component: {{ .Release.Name }}
         release: {{ .Release.Name }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/managed-by: {{ .Release.Service }}
+        app.kubernetes.io/name: {{ .Release.Name }}
+        helm.sh/chart: {{ .Chart.Name }}
     spec:
       hostNetwork: {{ .Values.hostNetwork }}
 {{- if .Values.hostNetwork }}
@@ -70,6 +98,8 @@ spec:
               value: "false"
           {{- end }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          securityContext:
+            allowPrivilegeEscalation: true
           ports:
             {{- if .Values.enable_impersonation }}
             - containerPort: {{ .Values.apiserver_secure_port }}
@@ -83,12 +113,26 @@ spec:
           {{- if .Values.hostPort }}
               hostPort: {{ .Values.httpsPort }}
           {{- end }}
+          livenessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              path: "/healthz"
+              scheme: HTTP
+              port: {{ .Values.httpPort }}
+            timeoutSeconds: 1
+          readinessProbe:
+            initialDelaySeconds: 10
+            httpGet:
+              path: "/healthz"
+              scheme: HTTP
+              port: {{ .Values.httpPort }}
           command:
             {{- if .Values.enable_impersonation }}
             - /run.sh
             {{- end }}
             - /icp-management-ingress
-            - --default-ssl-certificate=kube-system/{{ .Release.Name }}-tls-secret
+            - --default-ssl-certificate=$(POD_NAMESPACE)/{{ .Release.Name }}-tls-secret
+            - --configmap=$(POD_NAMESPACE)/{{ .Release.Name }}
             - --http-port={{ .Values.httpPort }}
             - --https-port={{ .Values.httpsPort }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}

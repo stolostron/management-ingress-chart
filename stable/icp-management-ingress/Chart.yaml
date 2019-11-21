@@ -1,0 +1,17 @@
+name: icp-management-ingress
+description: IBM Cloud control plane ingress controller
+keywords:
+- ICP
+- ingress
+- nginx
+- IcpClusterResource
+- Network
+- Commercial
+- Limited
+- amd64
+- ppc64le
+- s390x
+version: 3.4.0
+tillerVersion: ">=2.12.3"
+kubeVersion: ">=1.13.5"
+appVersion: "3.4.0"

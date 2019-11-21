@@ -4,15 +4,22 @@
 # US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
 
 ---
+
+{{- if .Values.internal_use }}
 apiVersion: v1
 kind: Service
 metadata:
   labels:
     kubernetes.io/cluster_service: 'true'
+    app: {{ .Release.Name }}
     chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-  name: {{ .Release.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}
+  name: icp-management-ingress
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
@@ -26,3 +33,4 @@ spec:
       targetPort: {{ .Values.httpsPort }}
   selector:
     k8s-app: {{ .Release.Name }}
+{{- end -}}

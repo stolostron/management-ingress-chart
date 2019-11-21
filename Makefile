@@ -1,13 +1,43 @@
-include Configfile
+###############################################################################
+# Licensed Materials - Property of IBM.
+# Copyright IBM Corporation 2017. All Rights Reserved.
+# U.S. Government Users Restricted Rights - Use, duplication or disclosure 
+# restricted by GSA ADP Schedule Contract with IBM Corp.
+#
+# Contributors:
+#  IBM Corporation - initial API and implementation
+###############################################################################
+SHELL = /bin/bash
+STABLE_BUILD_DIR = repo/stable
+STABLE_REPO_URL ?= https://raw.githubusercontent.com/IBM/charts/master/repo/stable/
+STABLE_CHARTS := $(wildcard stable/*)
+PACKAGE_VERSION ?= 3.4.0
 
-CHART_NAME ?= icp-management-ingress
-VERSION ?= $(shell grep version ./$(CHART_NAME)/Chart.yaml | awk '{print $$2}')
-UPLOAD_VERSION ?=99.99.99
-FILENAME ?= ${CHART_NAME}-${VERSION}.tgz
-UPLOAD_FILENAME ?= ${CHART_NAME}-${UPLOAD_VERSION}.tgz
-.PHONY: build lint setup
+.DEFAULT_GOAL=all
 
-default: build
+$(STABLE_BUILD_DIR):
+	@mkdir -p $@
+
+.PHONY: charts charts-stable $(STABLE_CHARTS) 
+
+# Default aliases: charts, repo
+
+charts: charts-stable
+
+repo: repo-stable
+
+charts-stable: $(STABLE_CHARTS)
+$(STABLE_CHARTS): $(STABLE_BUILD_DIR) 
+	cv lint helm $@
+	helm package $@ -d $(STABLE_BUILD_DIR)
+
+.PHONY: repo repo-stable repo-incubating 
+
+repo-stable: $(STABLE_CHARTS) $(STABLE_BUILD_DIR)
+	helm repo index $(STABLE_BUILD_DIR) --url $(STABLE_REPO_URL)
+
+.PHONY: all
+all: repo-stable 
 
 tool:
 	curl -fksSL https://storage.googleapis.com/kubernetes-helm/helm-v2.7.2-linux-amd64.tar.gz | sudo tar --strip-components=1 -xvz -C /usr/local/bin/ linux-amd64/helm
@@ -15,37 +45,9 @@ tool:
 setup:
 	helm init -c
 
-lint: setup
-	helm lint $(CHART_NAME)
+build: setup
+	helm package  --version $(PACKAGE_VERSION) ./stable/icp-management-ingress/
 
-build: lint
-	helm package $(CHART_NAME)
-
-publish: build
-	# We need to get the tar file, does it exist
-	@echo "Version: ${VERSION}"
-	if [ ! -f ./$(FILENAME) ]; then \
-		echo "File not found! - exitin"; \
-		exit; \
-	fi
-	helm package --version $(UPLOAD_VERSION) $(CHART_NAME)
-	# And push it to artifactory
-	curl -H 'X-JFrog-Art-Api: $(ARTIFACTORY_TOKEN)' -T $(UPLOAD_FILENAME) "https://na.artifactory.swg-devops.com/artifactory/hyc-cloud-private-integration-helm-local/$(UPLOAD_FILENAME)"
-	curl -H 'X-JFrog-Art-Api: $(ARTIFACTORY_TOKEN)' -T $(FILENAME) "https://na.artifactory.swg-devops.com/artifactory/hyc-cloud-private-integration-helm-local/$(FILENAME)"
-	@echo "DONE"
-
-publish-branch: build
-	# We need to get the tar file, does it exist
-	@echo "Version: ${VERSION}"
-	if [ ! -f ./$(FILENAME) ]; then \
-		echo "File not found! - exitin"; \
-		exit; \
-	fi
-	helm package --version $(UPLOAD_VERSION) $(CHART_NAME)
-	# And push it to artifactory
-	curl -H 'X-JFrog-Art-Api: $(ARTIFACTORY_TOKEN)' -T $(FILENAME) "https://na.artifactory.swg-devops.com/artifactory/hyc-cloud-private-integration-helm-local/$(FILENAME)"
-	@echo "DONE"
-
-include Makefile.docker
-
-include Makefile.test
+.PHONY: release
+release: build
+	curl -H 'X-JFrog-Art-Api: $(ARTIFACTORY_TOKEN)' -T icp-management-ingress-$(PACKAGE_VERSION).tgz "https://na.artifactory.swg-devops.com/artifactory/hyc-cloud-private-integration-helm-local/icp-management-ingress-$(PACKAGE_VERSION).tgz"
