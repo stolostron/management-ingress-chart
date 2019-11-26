@@ -17,6 +17,6 @@ prereqs:
         name: "ibm-restricted-psp"
   k8sDistros:
     kubernetes:
-      semver: ">=1.13.5"
+      semver: ">=1.11.0"
     openshift:
       semver: '>=3.11'
