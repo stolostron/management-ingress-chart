@@ -11,7 +11,7 @@ This chart:
 
 ## Prerequisites
 * Installing a PodDisruptionBudget
-* Kubernetes v1.13+
+* Kubernetes v1.11+
 * OpenShift 3.11+
 * Tiller v2.12+
 
