@@ -10,6 +10,7 @@ branches:
     - /^[0-9]+\..*$/
     - /^v[0-9]+\..*$/
     - /^release-[0-9]+\..*$/
+    - /^ga-.*$/
 
 # Environment variables (setup endpoint to IBM github)
 env:
