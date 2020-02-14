@@ -1,8 +1,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 image:
-  repository: ibmcom/icp-management-ingress
-  tag: 2.5.0
+  repository: quay.io/open-cluster-management/management-ingress
+  tag: 1.0.0
   pullPolicy: IfNotPresent
 
 resources:
@@ -64,3 +64,5 @@ apiserver_secure_port: 8001
 
 ## Is used internally for externally
 internal_use: true
+
+imageTagPostfix: ""
