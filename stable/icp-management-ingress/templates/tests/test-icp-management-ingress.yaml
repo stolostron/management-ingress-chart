@@ -16,7 +16,7 @@ metadata:
 spec:
   containers:
   - name: {{ .Release.Name }}-icp-management-ingress-test
-    image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+    image: "{{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}{{ .Values.imageTagPostfix }}{{ .Values.imageTagPostfix }}"
     command: ["/icp-management-ingress","--version"]
     resources:
       limits:

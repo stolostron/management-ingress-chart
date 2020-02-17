@@ -97,7 +97,7 @@ spec:
           {{- else }}
               value: "false"
           {{- end }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}{{ .Values.imageTagPostfix }}{{ .Values.imageTagPostfix }}"
           securityContext:
             allowPrivilegeEscalation: true
           ports:
