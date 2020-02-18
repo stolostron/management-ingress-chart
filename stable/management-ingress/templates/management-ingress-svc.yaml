@@ -5,7 +5,6 @@
 
 ---
 
-{{- if .Values.internal_use }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -19,18 +18,12 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/name: {{ .Release.Name }}
     helm.sh/chart: {{ .Chart.Name }}
-  name: icp-management-ingress
+  name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-    {{- if .Values.enable_impersonation }}
-    - name: https-443
-      port: 443
-      targetPort: {{ .Values.apiserver_secure_port }}
-    {{- end }}
     - name: https
       port: {{ .Values.httpsPort }}
       targetPort: {{ .Values.httpsPort }}
   selector:
     k8s-app: {{ .Release.Name }}
-{{- end -}}

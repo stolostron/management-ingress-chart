@@ -33,9 +33,9 @@ spec:
   - {{ .Values.cluster_ca_domain }}
   - {{ $altName1 }}
   - {{ $altName2 }}
-  - icp-management-ingress
-  - icp-management-ingress.kube-system
-  - icp-management-ingress.kube-system.svc
+  - {{ .Release.Name }}
+  - {{ .Release.Name }}.kube-system
+  - {{ .Release.Name }}.kube-system.svc
   {{ if .Values.cluster_address | regexMatch "^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,62}$" }}
   - {{ .Values.cluster_address }}
   {{ end }}
