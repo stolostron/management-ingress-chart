@@ -47,7 +47,7 @@ host_headers_check_enabled: true
 allowed_host_headers: "127.0.0.1 mycluster.icp management-ingress iam-token-service"
 
 ## Listening port of nginx backend
-httpPort: 80
+httpPort: 8080
 httpsPort: 443
 
 ## Use host port
