@@ -1,5 +1,5 @@
-name: icp-management-ingress
-description: IBM Cloud control plane ingress controller
+name: management-ingress
+description: Multi Cloud control plane ingress controller
 keywords:
 - ICP
 - ingress

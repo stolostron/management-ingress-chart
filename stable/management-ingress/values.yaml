@@ -6,6 +6,8 @@ image:
   tag: 1.0.0
   pullPolicy: IfNotPresent
 
+imageTagPostfix: ""
+
 resources:
   requests:
     cpu: 200m
@@ -42,11 +44,11 @@ cluster_internal_address: "127.0.0.1"
 
 ## Whether to enable host header check
 host_headers_check_enabled: true
-allowed_host_headers: "127.0.0.1 mycluster.icp icp-management-ingress iam-token-service"
+allowed_host_headers: "127.0.0.1 mycluster.icp management-ingress iam-token-service"
 
 ## Listening port of nginx backend
 httpPort: 8080
-httpsPort: 8443
+httpsPort: 443
 
 ## Use host port
 hostPort: true
@@ -64,6 +66,23 @@ enable_impersonation: false
 apiserver_secure_port: 8001
 
 ## Is used internally for externally
-internal_use: true
+internal_use: false
 
-imageTagPostfix: ""
+
+oauth_proxy:
+  image:
+    repository: quay.io/open-cluster-management
+    name: oauth_proxy
+    tag: 1.0.0
+    pullPolicy: IfNotPresent
+  httpsPort: 8443
+
+oauth_client:
+  id: multicloudingress
+  secret: multicloudingresssecret
+  callback_url: "https://ocp-host-here/oauth/callback"
+
+console_route:
+  name: multicloud-console
+  host: "https://ocp-host-here"
+  subdomain: ""
