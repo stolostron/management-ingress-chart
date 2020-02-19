@@ -158,7 +158,7 @@ spec:
             {{- if .Values.enable_impersonation }}
             - /run.sh
             {{- end }}
-            - /icp-management-ingress
+            - /management-ingress
             - --default-ssl-certificate=$(POD_NAMESPACE)/{{ .Release.Name }}-tls-secret
             - --configmap=$(POD_NAMESPACE)/{{ .Release.Name }}
             - --http-port={{ .Values.httpPort }}
