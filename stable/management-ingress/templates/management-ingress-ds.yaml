@@ -62,7 +62,8 @@ spec:
       containers:
         - args:
           - --provider=openshift
-          - --upstream=http://127.0.0.1:8080
+          - --upstream=https://127.0.0.1:443
+          - --upstream-ca=/etc/tls/ca/tls.crt
           - --https-address=:8443
           - --client-id={{ .Values.oauth_client.id }}
           - --client-secret={{ .Values.oauth_client.secret }}
@@ -90,6 +91,8 @@ spec:
           volumeMounts:
           - mountPath: /etc/tls/private
             name: tls-secret
+          - mountPath: /etc/tls/ca
+            name: ca-tls-secret
         - env:
             - name: ENABLE_IMPERSONATION
               value: "{{ .Values.enable_impersonation }}"
@@ -187,6 +190,10 @@ spec:
           secret:
             defaultMode: 420
             secretName: {{ .Release.Name }}-tls-secret
+        - name: ca-tls-secret
+          secret:
+            defaultMode: 420
+            secretName: {{ .Values.cert.ca }}
     {{- if .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml .Values.nodeSelector | indent 8 }}
