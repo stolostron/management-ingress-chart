@@ -72,9 +72,9 @@ internal_use: false
 
 oauth_proxy:
   image:
-    repository: quay.io/open-cluster-management
-    name: oauth_proxy
-    tag: 1.0.0
+    repository: openshift
+    name: oauth-proxy
+    tag: latest
     pullPolicy: IfNotPresent
   httpsPort: 8443
 
