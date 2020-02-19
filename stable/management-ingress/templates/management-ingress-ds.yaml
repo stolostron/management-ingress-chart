@@ -72,6 +72,8 @@ spec:
           - --request-logging=true
           - --skip-provider-button=true
           - --cookie-secure=true
+          - --cookie-expire=12h0m0s
+          - --cookie-refresh=8h0m0s
           - --tls-cert=/etc/tls/private/tls.crt
           - --tls-key=/etc/tls/private/tls.key
           - --cookie-secret=AAECAwQFBgcICQoLDA0OFw==
