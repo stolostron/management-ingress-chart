@@ -81,9 +81,9 @@ oauth_proxy:
 oauth_client:
   id: multicloudingress
   secret: multicloudingresssecret
-  callback_url: "https://ocp-host-here/oauth/callback"
+  callback_url: "https://multicloud-console.apps.OCPHOST/oauth/callback"
 
 console_route:
   name: multicloud-console
-  host: "https://ocp-host-here"
+  host: multicloud-console.apps.OCPHOST
   subdomain: ""
