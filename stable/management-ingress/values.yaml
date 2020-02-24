@@ -49,7 +49,7 @@ allowed_host_headers: "127.0.0.1 mycluster.icp management-ingress iam-token-serv
 
 ## Listening port of nginx backend
 httpPort: 8080
-httpsPort: 443
+httpsPort: 8443
 
 ## Use host port
 hostPort: true
@@ -76,7 +76,7 @@ oauth_proxy:
     name: oauth-proxy
     tag: latest
     pullPolicy: IfNotPresent
-  httpsPort: 8443
+  httpsPort: 443
 
 oauth_client:
   id: multicloudingress
