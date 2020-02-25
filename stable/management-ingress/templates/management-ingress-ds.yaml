@@ -62,16 +62,15 @@ spec:
       containers:
         - args:
           - --provider=openshift
-          - --upstream=https://127.0.0.1:443
+          - --upstream=https://127.0.0.1:{{ .Values.httpsPort }}
           - --upstream-ca=/etc/tls/ca/tls.crt
-          - --https-address=:8443
+          - --https-address=:{{ .Values.oauth_proxy.httpsPort }}
           - --client-id={{ .Values.oauth_client.id }}
           - --client-secret={{ .Values.oauth_client.secret }}
           - --pass-user-bearer-token=true
           - --pass-access-token=true
           - --scope=user:full
           - --openshift-delegate-urls={"/":{}}
-          - --request-logging=true
           - --skip-provider-button=true
           - --cookie-secure=true
           - --cookie-expire=12h0m0s
