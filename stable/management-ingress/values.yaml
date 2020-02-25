@@ -27,7 +27,7 @@ tolerations:
 
 cert:
   issuer:
-    name: icp-ca-issuer
+    name: multicloud-ca-issuer
     kind: ClusterIssuer
   ca: cluster-ca-cert
   duration: 2160h
