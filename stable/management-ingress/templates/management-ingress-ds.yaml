@@ -98,22 +98,12 @@ spec:
               value: "{{ .Values.enable_impersonation }}"
             - name: APISERVER_SECURE_PORT
               value: "{{ .Values.apiserver_secure_port }}"
-            - name: OIDC_ISSUER_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: platform-auth-idp
-                  key: OIDC_ISSUER_URL
             - name: CLUSTER_DOMAIN
               value: {{ .Values.cluster_domain }}
             - name: HOST_HEADERS_CHECK_ENABLED
               value: "{{ .Values.host_headers_check_enabled }}"
             - name: ALLOWED_HOST_HEADERS
               value: "{{ .Values.allowed_host_headers }}"
-            - name: WLP_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ .Values.oidc_secret }}
-                  key: WLP_CLIENT_ID
             - name: POD_NAME
               valueFrom:
                 fieldRef:
