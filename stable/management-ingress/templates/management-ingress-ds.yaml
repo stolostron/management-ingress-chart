@@ -78,7 +78,7 @@ spec:
           - --tls-cert=/etc/tls/private/tls.crt
           - --tls-key=/etc/tls/private/tls.key
           - --cookie-secret=AAECAwQFBgcICQoLDA0OFw==
-          image: "{{ .Values.oauth_proxy.image.repository }}/{{ .Values.oauth_proxy.image.name }}:{{ .Values.oauth_proxy.image.tag }}{{ .Values.imageTagPostfix }}"
+          image: "{{ .Values.oauth_proxy.image.repository }}/{{ .Values.oauth_proxy.image.name }}:{{ .Values.oauth_proxy.image.tag }}"
           imagePullPolicy: {{ .Values.oauth_proxy.image.pullPolicy }}
           name: oauth-proxy
           ports:
