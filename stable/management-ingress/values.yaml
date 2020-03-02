@@ -25,7 +25,7 @@ tolerations:
 cert:
   issuer:
     name: multicloud-ca-issuer
-    kind: ClusterIssuer
+    kind: Issuer
   ca: multicloud-ca-cert
   duration: 2160h
   renewBefore: 24h
