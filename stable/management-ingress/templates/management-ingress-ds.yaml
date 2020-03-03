@@ -11,7 +11,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}
-    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    chart: {{ .Chart.Name~ }}-{{ .Chart.Version }}
     component: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
@@ -59,6 +59,10 @@ spec:
 {{- if .Values.hostNetwork }}
       dnsPolicy: ClusterFirstWithHostNet
 {{- end }}
+    {{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.pullSecret }}
+    {{- end }}
       containers:
         - args:
           - --provider=openshift
