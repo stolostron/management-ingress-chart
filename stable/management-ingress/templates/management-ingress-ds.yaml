@@ -59,7 +59,7 @@ spec:
 {{- if .Values.hostNetwork }}
       dnsPolicy: ClusterFirstWithHostNet
 {{- end }}
-    {{- if .Values.imagePullSecrets }}
+    {{- if .Values.pullSecret }}
       imagePullSecrets:
         - name: {{ .Values.pullSecret }}
     {{- end }}
