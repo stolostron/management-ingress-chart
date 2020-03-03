@@ -11,7 +11,7 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     app: {{ .Release.Name }}
-    chart: {{ .Chart.Name~ }}-{{ .Chart.Version }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
     component: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
