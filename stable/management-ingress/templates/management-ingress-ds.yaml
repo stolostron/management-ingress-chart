@@ -59,6 +59,10 @@ spec:
 {{- if .Values.hostNetwork }}
       dnsPolicy: ClusterFirstWithHostNet
 {{- end }}
+    {{- if .Values.pullSecret }}
+      imagePullSecrets:
+        - name: {{ .Values.pullSecret }}
+    {{- end }}
       containers:
         - args:
           - --provider=openshift
