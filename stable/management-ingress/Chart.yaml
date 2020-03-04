@@ -1,10 +1,8 @@
 name: management-ingress
 description: Multi Cloud control plane ingress controller
 keywords:
-- ICP
 - ingress
 - nginx
-- IcpClusterResource
 - Network
 - Commercial
 - Limited
