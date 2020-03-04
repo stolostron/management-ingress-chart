@@ -42,7 +42,7 @@ cluster_internal_address: "127.0.0.1"
 
 ## Whether to enable host header check
 host_headers_check_enabled: true
-allowed_host_headers: "127.0.0.1 localhost management-ingress"
+allowed_host_headers: "127.0.0.1 localhost"
 
 ## Listening port of nginx backend
 httpPort: 8080
