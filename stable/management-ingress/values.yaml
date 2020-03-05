@@ -34,7 +34,6 @@ cert:
 ## Cluster info
 cluster_domain: "cluster.local"
 cluster_ca_domain: "mycluster.icp"
-oidc_secret: "platform-oidc-credentials"
 cluster_address: "127.0.0.1"
 cluster_internal_address: "127.0.0.1"
 
@@ -42,15 +41,15 @@ cluster_internal_address: "127.0.0.1"
 # tls_secret: icp-management-ingress-tls-secret
 
 ## Whether to enable host header check
-host_headers_check_enabled: true
-allowed_host_headers: "127.0.0.1 mycluster.icp management-ingress iam-token-service"
+host_headers_check_enabled: false
+allowed_host_headers: "127.0.0.1 localhost"
 
 ## Listening port of nginx backend
 httpPort: 8080
 httpsPort: 8443
 
 ## Use host port
-hostPort: true
+hostPort: false
 
 ## Use host network
 hostNetwork: false
@@ -66,7 +65,6 @@ apiserver_secure_port: 8001
 
 ## Is used internally for externally
 internal_use: false
-
 
 oauth_proxy:
   image:

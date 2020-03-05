@@ -66,7 +66,7 @@ spec:
       containers:
         - args:
           - --provider=openshift
-          - --upstream=https://127.0.0.1:{{ .Values.httpsPort }}
+          - --upstream=https://localhost:{{ .Values.httpsPort }}
           - --upstream-ca=/etc/tls/ca/tls.crt
           - --https-address=:{{ .Values.oauth_proxy.httpsPort }}
           - --client-id={{ .Values.oauth_client.id }}
@@ -107,7 +107,7 @@ spec:
             - name: HOST_HEADERS_CHECK_ENABLED
               value: "{{ .Values.host_headers_check_enabled }}"
             - name: ALLOWED_HOST_HEADERS
-              value: "{{ .Values.allowed_host_headers }}"
+              value: "{{ .Values.allowed_host_headers }} {{ .Release.Name }} {{ .Values.console_route.host }}"
             - name: POD_NAME
               valueFrom:
                 fieldRef:
