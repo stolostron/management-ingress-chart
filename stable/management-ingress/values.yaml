@@ -41,7 +41,7 @@ cluster_internal_address: "127.0.0.1"
 # tls_secret: icp-management-ingress-tls-secret
 
 ## Whether to enable host header check
-host_headers_check_enabled: true
+host_headers_check_enabled: false
 allowed_host_headers: "127.0.0.1 localhost"
 
 ## Listening port of nginx backend
