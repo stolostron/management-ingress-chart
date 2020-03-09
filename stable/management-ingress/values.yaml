@@ -66,6 +66,8 @@ apiserver_secure_port: 8001
 ## Is used internally for externally
 internal_use: false
 
+service_name: "management-ingress"
+
 oauth_proxy:
   image:
     repository: openshift

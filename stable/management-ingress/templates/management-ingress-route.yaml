@@ -28,7 +28,7 @@ spec:
     termination: passthrough
   to:
     kind: Service
-    name: {{ .Release.Name }}
+    name: {{ .Values.service_name }}
     weight: 100
   wildcardPolicy: None
 status:
