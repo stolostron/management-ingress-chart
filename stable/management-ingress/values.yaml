@@ -70,8 +70,8 @@ service_name: "management-ingress"
 
 oauth_proxy:
   image:
-    repository: openshift
-    name: oauth-proxy
+    repository: quay.io/openshift
+    name: origin-oauth-proxy
     tag: latest
     pullPolicy: IfNotPresent
   httpsPort: 443
