@@ -5,7 +5,7 @@
 
 ---
 apiVersion: apps/v1
-kind: DaemonSet
+kind: Deployment
 metadata:
   name: {{ .Release.Name }}
   namespace: {{ .Release.Namespace }}
@@ -20,10 +20,7 @@ metadata:
     app.kubernetes.io/name: {{ .Release.Name }}
     helm.sh/chart: {{ .Chart.Name }}
 spec:
-  selector:
-    matchLabels:
-      app: {{ .Release.Name }}
-      release: {{ .Release.Name }}
+  replicas: {{ .Values.replicaCount }}
   updateStrategy:
     type: RollingUpdate
     rollingUpdate:
