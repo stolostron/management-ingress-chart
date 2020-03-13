@@ -9,6 +9,8 @@ image:
 imageTagPostfix: ""
 pullSecret: null
 
+replicaCount: 1
+
 resources:
   requests:
     cpu: 200m
