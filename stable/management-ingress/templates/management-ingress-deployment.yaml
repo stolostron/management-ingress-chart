@@ -104,7 +104,7 @@ spec:
             - name: HOST_HEADERS_CHECK_ENABLED
               value: "{{ .Values.host_headers_check_enabled }}"
             - name: ALLOWED_HOST_HEADERS
-              value: "{{ .Values.allowed_host_headers }} {{ .Release.Name }} {{ .Values.service_name }} {{ .Values.console_route.host }}"
+              value: "{{ .Values.allowed_host_headers }} {{ .Release.Name }} {{ .Values.service_name }} {{ template "management-ingress.consoleRouteHost" . }}"
             - name: POD_NAME
               valueFrom:
                 fieldRef:

@@ -78,12 +78,13 @@ oauth_proxy:
     pullPolicy: IfNotPresent
   httpsPort: 443
 
+cluster_basedomain: ""
+
 oauth_client:
   id: multicloudingress
   secret: multicloudingresssecret
-  callback_url: "https://multicloud-console.apps.OCPHOST/oauth/callback"
+  callback_url: "/oauth/callback"
 
 console_route:
   name: multicloud-console
-  host: multicloud-console.apps.OCPHOST
   subdomain: ""

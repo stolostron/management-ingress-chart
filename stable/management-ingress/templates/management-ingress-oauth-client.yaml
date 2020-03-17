@@ -23,5 +23,5 @@ metadata:
     helm.sh/chart: {{ .Chart.Name }}
 grantMethod: auto
 redirectURIs:
-- {{ .Values.oauth_client.callback_url }}
+- {{ template "management-ingress.oauthCallbackUrl" . }}
 secret: {{ .Values.oauth_client.secret }}
