@@ -21,7 +21,7 @@ metadata:
     helm.sh/chart: {{ .Chart.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
-  updateStrategy:
+  strategy:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 1
