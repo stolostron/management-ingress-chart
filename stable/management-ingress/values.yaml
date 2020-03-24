@@ -74,7 +74,7 @@ oauth_proxy:
   image:
     repository: quay.io/openshift
     name: origin-oauth-proxy
-    tag: latest
+    tag: 4.5
     pullPolicy: IfNotPresent
   httpsPort: 443
 
