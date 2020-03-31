@@ -71,7 +71,7 @@ spec:
           - --pass-user-bearer-token=true
           - --pass-access-token=true
           - --scope=user:full
-          - --openshift-delegate-urls={"/":{}}
+          - '-openshift-delegate-urls={"/": {"resource": "projects", "verb": "list"}}'
           - --skip-provider-button=true
           - --cookie-secure=true
           - --cookie-expire=12h0m0s
