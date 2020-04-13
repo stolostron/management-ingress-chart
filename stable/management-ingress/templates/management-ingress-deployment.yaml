@@ -79,7 +79,11 @@ spec:
           - --tls-cert=/etc/tls/private/tls.crt
           - --tls-key=/etc/tls/private/tls.key
           - --cookie-secret=AAECAwQFBgcICQoLDA0OFw==
+{{- if .Values.imageShaDigests.origin-oauth-proxy }}
+        image: "{{ .Values.oauth_proxy.image.repository }}/{{ .Values.oauth_proxy.image.name }}@{{ .Values.imageShaDigests.origin-oauth-proxy }}"
+{{- else }}
           image: "{{ .Values.oauth_proxy.image.repository }}/{{ .Values.oauth_proxy.image.name }}:{{ .Values.oauth_proxy.image.tag }}"
+{{- end }}
           imagePullPolicy: {{ .Values.oauth_proxy.image.pullPolicy }}
           name: oauth-proxy
           ports:
@@ -121,7 +125,11 @@ spec:
           {{- else }}
               value: "false"
           {{- end }}
+{{- if .Values.imageShaDigests.management-ingress }}
+          image: "{{ .Values.image.repository }}/{{ .Values.image.name }}@{{ .Values.imageShaDigests.management-ingress }}"
+{{- else }}
           image: "{{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}{{ .Values.imageTagPostfix }}"
+{{- end }}
           securityContext:
             allowPrivilegeEscalation: true
           ports:

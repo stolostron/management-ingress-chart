@@ -7,6 +7,9 @@ image:
   pullPolicy: IfNotPresent
 
 imageTagPostfix: ""
+imageShaDigests:
+  origin-oauth-proxy: ""
+  management-ingress: ""
 pullSecret: null
 
 replicaCount: 1
