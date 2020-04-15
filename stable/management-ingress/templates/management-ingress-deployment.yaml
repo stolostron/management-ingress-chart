@@ -79,8 +79,8 @@ spec:
           - --tls-cert=/etc/tls/private/tls.crt
           - --tls-key=/etc/tls/private/tls.key
           - --cookie-secret=AAECAwQFBgcICQoLDA0OFw==
-{{- if .Values.imageShaDigests.originOauthProxy }}
-        image: "{{ .Values.oauth_proxy.image.repository }}/{{ .Values.oauth_proxy.image.name }}@{{ .Values.imageShaDigests.originOauthProxy }}"
+{{- if .Values.imageShaDigests.origin_oauth_proxy }}
+        image: "{{ .Values.oauth_proxy.image.repository }}/{{ .Values.oauth_proxy.image.name }}@{{ .Values.imageShaDigests.origin_oauth_proxy }}"
 {{- else }}
           image: "{{ .Values.oauth_proxy.image.repository }}/{{ .Values.oauth_proxy.image.name }}:{{ .Values.oauth_proxy.image.tag }}"
 {{- end }}
@@ -125,8 +125,8 @@ spec:
           {{- else }}
               value: "false"
           {{- end }}
-{{- if .Values.imageShaDigests.managementIngress }}
-          image: "{{ .Values.image.repository }}/{{ .Values.image.name }}@{{ .Values.imageShaDigests.managementIngress }}"
+{{- if .Values.imageShaDigests.management_ingress }}
+          image: "{{ .Values.image.repository }}/{{ .Values.image.name }}@{{ .Values.imageShaDigests.management_ingress }}"
 {{- else }}
           image: "{{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}{{ .Values.imageTagPostfix }}"
 {{- end }}

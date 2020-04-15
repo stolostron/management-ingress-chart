@@ -8,8 +8,8 @@ image:
 
 imageTagPostfix: ""
 imageShaDigests:
-  originOauthProxy: ""
-  managementIngress: ""
+  origin_oauth_proxy: ""
+  management_ingress: ""
 pullSecret: null
 
 replicaCount: 1
