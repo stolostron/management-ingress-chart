@@ -52,6 +52,7 @@ spec:
         app.kubernetes.io/name: {{ .Release.Name }}
         helm.sh/chart: {{ .Chart.Name }}
     spec:
+      serviceAccountName: {{ .Release.Name }}-sa
       hostNetwork: {{ .Values.hostNetwork }}
 {{- if .Values.hostNetwork }}
       dnsPolicy: ClusterFirstWithHostNet
