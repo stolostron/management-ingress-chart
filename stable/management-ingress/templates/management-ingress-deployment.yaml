@@ -80,6 +80,11 @@ spec:
           - --tls-cert=/etc/tls/private/tls.crt
           - --tls-key=/etc/tls/private/tls.key
           - --cookie-secret=AAECAwQFBgcICQoLDA0OFw==
+{{- if .Values.imageShaDigests.origin_oauth_proxy }}
+        image: "{{ .Values.oauth_proxy.image.repository }}/{{ .Values.oauth_proxy.image.name }}@{{ .Values.imageShaDigests.origin_oauth_proxy }}"
+{{- else }}
+          image: "{{ .Values.oauth_proxy.image.repository }}/{{ .Values.oauth_proxy.image.name }}:{{ .Values.oauth_proxy.image.tag }}"
+{{- end }}
           image: "{{ .Values.global.imageOverrides.origin_oauth_proxy }}"
           imagePullPolicy: {{ .Values.oauth_proxy.image.pullPolicy }}
           name: oauth-proxy
