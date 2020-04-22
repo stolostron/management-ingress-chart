@@ -9,9 +9,10 @@ imageShaDigests:
   management_ingress: ""
 pullSecret: null
 
-imageOverrides:
-  origin_oauth_proxy: ""
-  management_ingress: ""
+global:
+  imageOverrides:
+    origin_oauth_proxy: ""
+    management_ingress: ""
 
 replicaCount: 1
 
