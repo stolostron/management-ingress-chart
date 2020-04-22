@@ -1,9 +1,6 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 image:
-  repository: quay.io/open-cluster-management
-  name: management-ingress
-  tag: 1.0.0
   pullPolicy: IfNotPresent
 
 imageTagPostfix: ""
@@ -11,6 +8,10 @@ imageShaDigests:
   origin_oauth_proxy: ""
   management_ingress: ""
 pullSecret: null
+
+imageOverrides:
+  origin_oauth_proxy: ""
+  management_ingress: ""
 
 replicaCount: 1
 
@@ -75,9 +76,6 @@ service_name: "management-ingress"
 
 oauth_proxy:
   image:
-    repository: quay.io/openshift
-    name: origin-oauth-proxy
-    tag: 4.5
     pullPolicy: IfNotPresent
   httpsPort: 443
 

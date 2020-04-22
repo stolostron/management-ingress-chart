@@ -5,16 +5,6 @@ image:
     name: "image setting"
     label: "image setting"
     description: "set image repository, tag and pullPolicy"
-  repository:
-    __metadata:
-      name: "image repository setting"
-      label: "image repository setting"
-      description: "set image repository, default is ibmcom/icp-management-ingress"
-  tag:
-    __metadata:
-      name: "image tag setting"
-      label: "image tag setting"
-      description: "set image tag version"
   pullPolicy:
     __metadata:
       name: "image pullPolicy setting"

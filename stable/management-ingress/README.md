@@ -73,8 +73,6 @@ The following table lists the configurable parameters of the `ICP Management Ing
 
 | Parameter                              | Description                                                    | Default                       |
 |----------------------------------------|----------------------------------------------------------------|-------------------------------|
-| image.repository                       | ICP Management Ingress image to use for this deployment        | ibmcom/icp-management-ingress |
-| image.tag                              | ICP Management Ingress image tag to use for this deployment    | 2.5.0                         |
 | image.pullPolicy                       | ICP Management Ingress pull policy                             | IfNotPresent                  |
 | resources.requests.cpu                 | cpu request to run this deployment                             | 200m                          |
 | resources.requests.memory              | memory request to run this deployment                          | 256Mi                         |
