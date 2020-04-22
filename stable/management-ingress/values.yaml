@@ -11,7 +11,7 @@ pullSecret: null
 
 global:
   imageOverrides:
-    management_ingress: ""
+    management_ingress: "quay.io/open-cluster-management/management-ingress:1.0.0"
 
 replicaCount: 1
 
