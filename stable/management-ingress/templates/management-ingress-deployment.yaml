@@ -85,7 +85,6 @@ spec:
 {{- else }}
           image: "{{ .Values.oauth_proxy.image.repository }}/{{ .Values.oauth_proxy.image.name }}:{{ .Values.oauth_proxy.image.tag }}"
 {{- end }}
-          image: "{{ .Values.global.imageOverrides.origin_oauth_proxy }}"
           imagePullPolicy: {{ .Values.oauth_proxy.image.pullPolicy }}
           name: oauth-proxy
           ports:
