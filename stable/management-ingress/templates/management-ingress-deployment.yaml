@@ -81,7 +81,7 @@ spec:
           - --tls-key=/etc/tls/private/tls.key
           - --cookie-secret=AAECAwQFBgcICQoLDA0OFw==
           image: "{{ .Values.global.imageOverrides.origin_oauth_proxy }}"
-          imagePullPolicy: {{ .Values.oauth_proxy.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.global.pullPolicy }}
           name: oauth-proxy
           ports:
           - containerPort: {{ .Values.oauth_proxy.httpsPort }}
@@ -169,7 +169,7 @@ spec:
             - --configmap=$(POD_NAMESPACE)/{{ .Release.Name }}
             - --http-port={{ .Values.httpPort }}
             - --https-port={{ .Values.httpsPort }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.global.pullPolicy }}
           name: {{ .Release.Name }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}

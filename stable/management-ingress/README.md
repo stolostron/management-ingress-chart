@@ -73,7 +73,6 @@ The following table lists the configurable parameters of the `ICP Management Ing
 
 | Parameter                              | Description                                                    | Default                       |
 |----------------------------------------|----------------------------------------------------------------|-------------------------------|
-| image.pullPolicy                       | ICP Management Ingress pull policy                             | IfNotPresent                  |
 | resources.requests.cpu                 | cpu request to run this deployment                             | 200m                          |
 | resources.requests.memory              | memory request to run this deployment                          | 256Mi                         |
 | config.disable-access-log              | ICP Management Ingress configmap setting of disable-access-log | true                          |
