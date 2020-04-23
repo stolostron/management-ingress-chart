@@ -4,15 +4,12 @@ image:
   pullPolicy: IfNotPresent
 
 imageTagPostfix: ""
-imageShaDigests:
-  origin_oauth_proxy: ""
-  management_ingress: ""
 pullSecret: null
 
 global:
   imageOverrides:
-    management_ingress: "quay.io/open-cluster-management/management-ingress:1.0.0"
-
+    management_ingress: ""
+    origin_oauth_proxy: ""
 replicaCount: 1
 
 resources:
@@ -76,9 +73,6 @@ service_name: "management-ingress"
 
 oauth_proxy:
   image:
-    repository: quay.io/openshift
-    name: origin-oauth-proxy
-    tag: 4.5
     pullPolicy: IfNotPresent
   httpsPort: 443
 
