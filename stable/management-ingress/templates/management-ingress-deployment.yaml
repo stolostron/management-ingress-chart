@@ -80,7 +80,7 @@ spec:
           - --tls-cert=/etc/tls/private/tls.crt
           - --tls-key=/etc/tls/private/tls.key
           - --cookie-secret=AAECAwQFBgcICQoLDA0OFw==
-          image: "{{ .Values.global.imageOverrides.origin_oauth_proxy }}"
+          image: "{{ .Values.global.imageOverrides.oauth_proxy }}"
           imagePullPolicy: {{ .Values.global.pullPolicy }}
           name: oauth-proxy
           ports:

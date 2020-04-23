@@ -7,7 +7,7 @@ global:
   pullPolicy: Always
   imageOverrides:
     management_ingress: ""
-    origin_oauth_proxy: ""
+    oauth_proxy: ""
 replicaCount: 1
 
 resources:
