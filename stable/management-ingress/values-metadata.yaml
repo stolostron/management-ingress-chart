@@ -1,26 +1,5 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-image:
-  __metadata:
-    name: "image setting"
-    label: "image setting"
-    description: "set image repository, tag and pullPolicy"
-  repository:
-    __metadata:
-      name: "image repository setting"
-      label: "image repository setting"
-      description: "set image repository, default is ibmcom/icp-management-ingress"
-  tag:
-    __metadata:
-      name: "image tag setting"
-      label: "image tag setting"
-      description: "set image tag version"
-  pullPolicy:
-    __metadata:
-      name: "image pullPolicy setting"
-      label: "image pullPolicy setting"
-      description: "set image pullPolicy, default is IfNotPresent"
-
 resources:
   __metadata:
     name: "resources requests"

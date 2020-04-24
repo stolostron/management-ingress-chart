@@ -80,12 +80,8 @@ spec:
           - --tls-cert=/etc/tls/private/tls.crt
           - --tls-key=/etc/tls/private/tls.key
           - --cookie-secret=AAECAwQFBgcICQoLDA0OFw==
-{{- if .Values.imageShaDigests.origin_oauth_proxy }}
-        image: "{{ .Values.oauth_proxy.image.repository }}/{{ .Values.oauth_proxy.image.name }}@{{ .Values.imageShaDigests.origin_oauth_proxy }}"
-{{- else }}
-          image: "{{ .Values.oauth_proxy.image.repository }}/{{ .Values.oauth_proxy.image.name }}:{{ .Values.oauth_proxy.image.tag }}"
-{{- end }}
-          imagePullPolicy: {{ .Values.oauth_proxy.image.pullPolicy }}
+          image: "{{ .Values.global.imageOverrides.oauth_proxy }}"
+          imagePullPolicy: {{ .Values.global.pullPolicy }}
           name: oauth-proxy
           ports:
           - containerPort: {{ .Values.oauth_proxy.httpsPort }}
@@ -135,11 +131,7 @@ spec:
           {{- else }}
               value: "false"
           {{- end }}
-{{- if .Values.imageShaDigests.management_ingress }}
-          image: "{{ .Values.image.repository }}/{{ .Values.image.name }}@{{ .Values.imageShaDigests.management_ingress }}"
-{{- else }}
-          image: "{{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}{{ .Values.imageTagPostfix }}"
-{{- end }}
+          image: "{{ .Values.global.imageOverrides.management_ingress }}"
           securityContext:
             allowPrivilegeEscalation: true
           ports:
@@ -177,7 +169,7 @@ spec:
             - --configmap=$(POD_NAMESPACE)/{{ .Release.Name }}
             - --http-port={{ .Values.httpPort }}
             - --https-port={{ .Values.httpsPort }}
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          imagePullPolicy: {{ .Values.global.pullPolicy }}
           name: {{ .Release.Name }}
           resources:
 {{ toYaml .Values.resources | indent 12 }}
