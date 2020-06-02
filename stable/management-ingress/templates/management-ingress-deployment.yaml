@@ -195,20 +195,14 @@ spec:
           secret:
             defaultMode: 420
             secretName: {{ .Values.cert.ca }}
-    {{- if .Values.nodeSelector }}
+    {{- with .Values.hubconfig.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.nodeSelector | indent 8 }}
-    {{- end }}
+      {{ toYaml . | indent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
       affinity:
-        podAntiAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            - labelSelector:
-                matchExpressions:
-                  - key: app
-                    operator: In
-                    values:
-                      - {{ .Release.Name }}
-              topologyKey: kubernetes.io/hostname
+{{ toYaml . | indent 8 }}
+    {{- end }}
     {{- if .Values.tolerations }}
       tolerations:
 {{ toYaml .Values.tolerations | indent 8 }}
