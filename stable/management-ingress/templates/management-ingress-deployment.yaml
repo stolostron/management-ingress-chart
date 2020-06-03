@@ -197,8 +197,8 @@ spec:
             secretName: {{ .Values.cert.ca }}
     {{- with .Values.hubconfig.nodeSelector }}
       nodeSelector:
-      {{ toYaml . | indent 8 }}
-      {{- end }}
+{{ toYaml . | indent 8 }}
+    {{- end }}
       {{- with .Values.affinity }}
       affinity:
 {{ toYaml . | indent 8 }}
