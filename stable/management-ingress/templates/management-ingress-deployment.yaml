@@ -80,6 +80,8 @@ spec:
           - --tls-cert=/etc/tls/private/tls.crt
           - --tls-key=/etc/tls/private/tls.key
           - --cookie-secret=AAECAwQFBgcICQoLDA0OFw==
+          - --openshift-ca=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          - --openshift-ca=/etc/tls/ocp/tls.crt
           image: "{{ .Values.global.imageOverrides.oauth_proxy }}"
           imagePullPolicy: {{ .Values.global.pullPolicy }}
           name: oauth-proxy
@@ -104,6 +106,8 @@ spec:
             name: tls-secret
           - mountPath: /etc/tls/ca
             name: ca-tls-secret
+          - mountPath: /etc/tls/ocp
+            name: ocp-tls-secret
         - env:
             - name: ENABLE_IMPERSONATION
               value: "{{ .Values.enable_impersonation }}"
@@ -192,6 +196,10 @@ spec:
             defaultMode: 420
             secretName: {{ .Release.Name }}-tls-secret
         - name: ca-tls-secret
+          secret:
+            defaultMode: 420
+            secretName: {{ .Values.cert.ca }}
+        - name: ocp-tls-secret
           secret:
             defaultMode: 420
             secretName: {{ .Values.cert.ca }}
