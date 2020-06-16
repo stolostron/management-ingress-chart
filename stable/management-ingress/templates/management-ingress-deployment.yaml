@@ -20,7 +20,7 @@ metadata:
     app.kubernetes.io/name: {{ .Release.Name }}
     helm.sh/chart: {{ .Chart.Name }}
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: {{ .Values.hubconfig.replicaCount }}
   strategy:
     type: RollingUpdate
     rollingUpdate:
