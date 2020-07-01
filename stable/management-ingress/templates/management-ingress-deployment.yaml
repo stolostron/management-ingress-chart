@@ -174,7 +174,11 @@ spec:
             - /run.sh
             {{- end }}
             - /management-ingress
+            {{ if (lookup "v1" "Secret" .Release.Namespace "byo-ingress-tls-secret") }}
+            - --default-ssl-certificate=$(POD_NAMESPACE)/byo-ingress-tls-secret
+            {{ else }}
             - --default-ssl-certificate=$(POD_NAMESPACE)/{{ .Release.Name }}-tls-secret
+            {{ end }}
             - --configmap=$(POD_NAMESPACE)/{{ .Release.Name }}
             - --http-port={{ .Values.httpPort }}
             - --https-port={{ .Values.httpsPort }}
@@ -199,11 +203,19 @@ spec:
         - name: tls-secret
           secret:
             defaultMode: 420
+            {{ if (lookup "v1" "Secret" .Release.Namespace "byo-ingress-tls-secret") }}
+            secretName: byo-ingress-tls-secret
+            {{ else }}
             secretName: {{ .Release.Name }}-tls-secret
+            {{ end }}
         - name: ca-tls-secret
           secret:
             defaultMode: 420
+            {{ if (lookup "v1" "Secret" .Release.Namespace "byo-ca-cert") }}
+            secretName: byo-ca-cert
+            {{ else }}
             secretName: {{ .Values.cert.ca }}
+            {{ end }}
         {{- if .Values.hubconfig.customCAConfigmap }}
         - name: ocp-custom-ca
           configMap:
