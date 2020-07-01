@@ -82,7 +82,9 @@ spec:
           - --cookie-secret=AAECAwQFBgcICQoLDA0OFw==
           - --openshift-ca=/etc/pki/tls/cert.pem
           - --openshift-ca=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+          {{- if .Values.hubconfig.customCAConfigmap }}
           - --openshift-ca=/etc/tls/ocp/tls.crt
+          {{- end }}
           image: "{{ .Values.global.imageOverrides.oauth_proxy }}"
           imagePullPolicy: {{ .Values.global.pullPolicy }}
           name: oauth-proxy
@@ -107,8 +109,10 @@ spec:
             name: tls-secret
           - mountPath: /etc/tls/ca
             name: ca-tls-secret
+          {{- if .Values.hubconfig.customCAConfigmap }}
           - mountPath: /etc/tls/ocp
-            name: ocp-tls-secret
+            name: ocp-custom-ca
+          {{- end }}
         - env:
             - name: ENABLE_IMPERSONATION
               value: "{{ .Values.enable_impersonation }}"
@@ -200,10 +204,14 @@ spec:
           secret:
             defaultMode: 420
             secretName: {{ .Values.cert.ca }}
-        - name: ocp-tls-secret
-          secret:
-            defaultMode: 420
-            secretName: {{ .Values.cert.ca }}
+        {{- if .Values.hubconfig.customCAConfigmap }}
+        - name: ocp-custom-ca
+          configMap:
+            name: {{ .Values.hubconfig.customCAConfigmap }}
+            items:
+              - key: ca-bundle.crt
+                path: tls.crt
+        {{- end }}
     {{- with .Values.hubconfig.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
