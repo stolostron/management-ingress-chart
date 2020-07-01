@@ -174,11 +174,7 @@ spec:
             - /run.sh
             {{- end }}
             - /management-ingress
-            {{ if (lookup "v1" "Secret" .Release.Namespace "byo-ingress-tls-secret") }}
-            - --default-ssl-certificate=$(POD_NAMESPACE)/byo-ingress-tls-secret
-            {{ else }}
             - --default-ssl-certificate=$(POD_NAMESPACE)/{{ .Release.Name }}-tls-secret
-            {{ end }}
             - --configmap=$(POD_NAMESPACE)/{{ .Release.Name }}
             - --http-port={{ .Values.httpPort }}
             - --https-port={{ .Values.httpsPort }}
