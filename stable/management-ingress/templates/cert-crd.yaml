@@ -29,6 +29,8 @@ spec:
     name: {{ .Values.cert.issuer.name }}
     kind: {{ .Values.cert.issuer.kind }}
   commonName: "management-ingress"
+  organization:
+  - Red Hat
   dnsNames:
   - {{ .Values.cluster_ca_domain }}
   - {{ $altName1 }}
