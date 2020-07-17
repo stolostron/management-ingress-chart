@@ -71,7 +71,7 @@ internal_use: false
 service_name: "management-ingress"
 
 oauth_proxy:
-  httpsPort: 443
+  httpsPort: 9443
 
 cluster_basedomain: ""
 
