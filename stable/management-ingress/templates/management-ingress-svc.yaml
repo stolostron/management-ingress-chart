@@ -23,7 +23,7 @@ metadata:
 spec:
   ports:
     - name: https
-      port: {{ .Values.oauth_proxy.httpsPort }}
+      port: 443
       targetPort: {{ .Values.oauth_proxy.httpsPort }}
   selector:
     k8s-app: {{ .Release.Name }}
