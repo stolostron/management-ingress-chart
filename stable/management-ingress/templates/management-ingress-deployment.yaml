@@ -104,7 +104,6 @@ spec:
           resources: {}
           securityContext:
             allowPrivilegeEscalation: true
-            runAsNonRoot: true
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           volumeMounts:
