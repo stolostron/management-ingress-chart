@@ -36,7 +36,6 @@ spec:
   template:
     metadata:
       annotations:
-        seccomp.security.alpha.kubernetes.io/pod: docker/default
         productID: "{{ .Chart.Name }}_{{ .Chart.Version }}_00000"
         productName: "{{ .Chart.Name }}"
         productVersion: "{{ .Chart.Version }}"
