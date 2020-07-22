@@ -145,7 +145,6 @@ spec:
           image: "{{ .Values.global.imageOverrides.management_ingress }}"
           securityContext:
             allowPrivilegeEscalation: true
-            runAsNonRoot: true
           ports:
             {{- if .Values.enable_impersonation }}
             - containerPort: {{ .Values.apiserver_secure_port }}
