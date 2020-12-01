@@ -41,6 +41,7 @@ spec:
         productVersion: "{{ .Chart.Version }}"
       labels:
         app: {{ .Release.Name }}
+        ocm-antiaffinity-selector: "managementingress"
         chart: {{ .Chart.Name }}
         heritage: {{ .Release.Service }}
         k8s-app: {{ .Release.Name }}
