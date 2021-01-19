@@ -96,16 +96,16 @@ affinity:
         topologyKey: topology.kubernetes.io/zone
         labelSelector:
           matchExpressions:
-          - key: app
+          - key: ocm-antiaffinity-selector
             operator: In
             values:
-            - management-ingress
+            - managementingress
     - weight: 35
       podAffinityTerm:
         topologyKey: kubernetes.io/hostname
         labelSelector:
           matchExpressions:
-          - key: app
+          - key: ocm-antiaffinity-selector
             operator: In
             values:
-            - management-ingress
+            - managementingress
