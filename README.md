@@ -1,4 +1,4 @@
-# icp-management-ingress-chart
+# management-ingress-chart
 
 ## Build steps
 
@@ -11,4 +11,5 @@ make image
 ## The image directory structure
 
 ```
-icp-management-ingress-chart/icp-management-ingress-chart-2.2.0.tgz
+management-ingress-chart/management-ingress-chart-3.4.0.tgz
+```
