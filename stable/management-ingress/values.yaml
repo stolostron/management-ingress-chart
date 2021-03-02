@@ -43,7 +43,7 @@ cluster_address: "127.0.0.1"
 cluster_internal_address: "127.0.0.1"
 
 ## Use BYO cert
-# tls_secret: icp-management-ingress-tls-secret
+# tls_secret: management-ingress-tls-secret
 
 ## Whether to enable host header check
 host_headers_check_enabled: false
