@@ -31,7 +31,6 @@ repo: repo-stable
 
 charts-stable: $(STABLE_CHARTS)
 $(STABLE_CHARTS): $(STABLE_BUILD_DIR)
-	cv lint helm $@
 	helm package $@ -d $(STABLE_BUILD_DIR)
 
 .PHONY: repo repo-stable repo-incubating
