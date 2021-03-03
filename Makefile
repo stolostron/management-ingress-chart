@@ -9,6 +9,7 @@
 ###############################################################################
 
 # Copyright (c) 2020 Red Hat, Inc.
+# Copyright Contributors to the Open Cluster Management project
 
 SHELL = /bin/bash
 STABLE_BUILD_DIR = repo/stable
@@ -48,8 +49,8 @@ setup:
 	helm init -c
 
 build: setup
-	helm package  --version $(PACKAGE_VERSION) ./stable/icp-management-ingress/
+	helm package  --version $(PACKAGE_VERSION) ./stable/management-ingress/
 
 .PHONY: release
 release: build
-	curl -H 'X-JFrog-Art-Api: $(ARTIFACTORY_TOKEN)' -T icp-management-ingress-$(PACKAGE_VERSION).tgz "https://na.artifactory.swg-devops.com/artifactory/hyc-cloud-private-integration-helm-local/icp-management-ingress-$(PACKAGE_VERSION).tgz"
+	curl -H 'X-JFrog-Art-Api: $(ARTIFACTORY_TOKEN)' -T management-ingress-$(PACKAGE_VERSION).tgz "https://na.artifactory.swg-devops.com/artifactory/hyc-cloud-private-integration-helm-local/management-ingress-$(PACKAGE_VERSION).tgz"
