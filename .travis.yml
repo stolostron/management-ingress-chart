@@ -15,15 +15,15 @@ stages:
 
 branches:
   only:
-    - master
+    - main
     - /^release-[0-9]+\..*$/
 
 jobs:
   include:
     - stage: auto
       name: "Auto trigger mch-repo"
-      if: type = push AND branch =~ /^master$/
-      script: 
+      if: type = push AND branch =~ /^main$/
+      script:
         - git clone --single-branch --branch main https://${MCH_REPO_BOT_TOKEN}@github.com/open-cluster-management/multicloudhub-repo.git
         - cd multicloudhub-repo
         - ./cicd-scripts/chartAutomation.sh management-ingress-chart
