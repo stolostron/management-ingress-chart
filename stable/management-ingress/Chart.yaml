@@ -4,9 +4,7 @@ description: Multi Cloud control plane ingress controller
 keywords:
 - ingress
 - nginx
-- Network
-- Commercial
-- Limited
+- network
 - amd64
 - ppc64le
 - s390x
