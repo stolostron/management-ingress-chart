@@ -1,1 +1,1 @@
-icp-management-ingress chart
+management-ingress chart
