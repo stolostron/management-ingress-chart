@@ -15,57 +15,13 @@ This chart:
 * OpenShift 3.11+
 * Tiller v2.12+
 
-### PodSecurityPolicy Requirements
-The predefined PodSecurityPolicy name: [`ibm-restricted-psp`](https://ibm.biz/cpkspec-psp) has been verified for this chart, if your target namespace is bound to this PodSecurityPolicy you can proceed to install the chart.
-
-Custom PodSecurityPolicy definition:
-```
-apiVersion: extensions/v1beta1
-kind: PodSecurityPolicy
-metadata:
-  annotations:
-    kubernetes.io/description: "This policy grants access to all privileged
-      host features and allows a pod to run with any
-      UID and GID and any volume.
-      WARNING:  This policy is the least restrictive and
-      should only used for cluster administration.
-      Use with caution."
-    seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
-  name: ibm-privileged-psp
-spec:
-  allowPrivilegeEscalation: true
-  allowedCapabilities:
-    - '*'
-  allowedUnsafeSysctls:
-    - '*'
-  fsGroup:
-    rule: RunAsAny
-  hostIPC: true
-  hostNetwork: true
-  hostPID: true
-  hostPorts:
-    - max: 65535
-      min: 0
-  privileged: true
-  runAsUser:
-    rule: RunAsAny
-  seLinux:
-    rule: RunAsAny
-  supplementalGroups:
-    rule: RunAsAny
-  volumes:
-    - '*'
-```
-### Red Hat OpenShift SecurityContextConstraints Requirements
-The predefined SecurityContextConstraints name: [`ibm-restricted-scc`](https://ibm.biz/cpkspec-scc) has been verified for this chart, if your target namespace is bound to this SecurityContextConstraints resource you can proceed to install the chart.
-
 ## Resources Required
 * cpu: 200m
 * memory: 256Mi
 
 ## Installing the Chart
 ```
-helm install --namespace kube-system --name management-ingress management-ingress --tls
+helm install --namespace kube-system --name management-ingress management-ingress
 ```
 
 ## Configuration
