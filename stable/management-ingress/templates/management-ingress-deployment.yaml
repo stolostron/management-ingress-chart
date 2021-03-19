@@ -65,7 +65,7 @@ spec:
       containers:
         - args:
           - --provider=openshift
-          - --upstream=https://localhost:{{ .Values.httpsPort }}
+          - --upstream=https://{{ .Values.service_name }}.{{ .Release.Namespace }}.svc:{{ .Values.httpsPort }}
           - --upstream-ca=/etc/tls/ca/tls.crt
           - --https-address=:{{ .Values.oauth_proxy.httpsPort }}
           - --client-id={{ .Values.oauth_client.id }}

@@ -23,8 +23,11 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-    - name: https
+    - name: oauth
       port: 443
       targetPort: {{ .Values.oauth_proxy.httpsPort }}
+    - name: management-ingress
+      port: {{ .Values.httpsPort }}
+      targetPort: {{ .Values.httpsPort }}
   selector:
     k8s-app: {{ .Release.Name }}

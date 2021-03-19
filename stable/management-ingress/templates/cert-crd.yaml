@@ -43,7 +43,6 @@ spec:
   - {{ .Values.service_name }}.{{ .Release.Namespace }}
   - {{ .Values.service_name }}.{{ .Release.Namespace }}.svc
   - {{ template "management-ingress.consoleRouteHost" . }}
-  - localhost
   {{ if .Values.cluster_address | regexMatch "^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\\.)+[a-zA-Z]{2,62}$" }}
   - {{ .Values.cluster_address }}
   {{ end }}
