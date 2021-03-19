@@ -66,7 +66,7 @@ spec:
         - args:
           - --provider=openshift
           - --upstream=https://{{ .Values.service_name }}.{{ .Release.Namespace }}.svc:{{ .Values.httpsPort }}
-          - --upstream-ca=/etc/tls/ca/tls.crt
+          - --upstream-ca=/etc/tls/ca/service-ca.crt
           - --https-address=:{{ .Values.oauth_proxy.httpsPort }}
           - --client-id={{ .Values.oauth_client.id }}
           - --client-secret={{ .Values.oauth_client.secret }}
@@ -111,7 +111,7 @@ spec:
           - mountPath: /etc/tls/private
             name: tls-secret
           - mountPath: /etc/tls/ca
-            name: ca-tls-secret
+            name: ca-tls
           {{- if .Values.hubconfig.customCAConfigmap }}
           - mountPath: /etc/tls/ocp
             name: ocp-custom-ca
@@ -212,14 +212,16 @@ spec:
             {{ else }}
             secretName: {{ .Release.Name }}-tls-secret
             {{ end }}
-        - name: ca-tls-secret
+        - name: ca-tls
+          {{ if (lookup "v1" "Secret" .Release.Namespace "byo-ca-cert") }}
           secret:
             defaultMode: 420
-            {{ if (lookup "v1" "Secret" .Release.Namespace "byo-ca-cert") }}
             secretName: byo-ca-cert
-            {{ else }}
-            secretName: {{ .Values.cert.ca }}
-            {{ end }}
+          {{ else }}
+          configMap:
+            defaultMode: 420
+            name: {{ .Release.Name }}-ca
+          {{ end }}
         {{- if .Values.hubconfig.customCAConfigmap }}
         - name: ocp-custom-ca
           configMap:

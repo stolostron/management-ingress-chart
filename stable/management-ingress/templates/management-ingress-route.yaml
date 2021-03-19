@@ -26,7 +26,11 @@ spec:
   subdomain: {{ .Values.console_route.subdomain }}
   tls:
     insecureEdgeTerminationPolicy: Redirect
-    termination: passthrough
+    termination: reencrypt
+    destinationCACertificate: |-
+      -----BEGIN CERTIFICATE-----
+      [...]
+      -----END CERTIFICATE-----
   to:
     kind: Service
     name: {{ .Values.service_name }}

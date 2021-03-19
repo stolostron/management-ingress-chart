@@ -29,14 +29,6 @@ tolerations:
   key: node-role.kubernetes.io/infra 
   operator: Exists
 
-cert:
-  issuer:
-    name: multicloud-ca-issuer
-    kind: Issuer
-  ca: multicloud-ca-cert
-  duration: 2160h
-  renewBefore: 24h
-
 ## Cluster info
 cluster_domain: "cluster.local"
 cluster_ca_domain: "mycluster.icp"
