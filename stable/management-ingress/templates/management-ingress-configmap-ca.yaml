@@ -14,3 +14,5 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/name: {{ .Release.Name }}
     helm.sh/chart: {{ .Chart.Name }}
+  annotations:
+    service.beta.openshift.io/inject-cabundle: "true"

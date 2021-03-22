@@ -25,10 +25,10 @@ metadata:
   namespace: {{ .Release.Namespace }}
 spec:
   ports:
-    - name: oauth
+    - name: https
       port: 443
       targetPort: {{ .Values.oauth_proxy.httpsPort }}
-    - name: management-ingress
+    - name: ingress
       port: {{ .Values.httpsPort }}
       targetPort: {{ .Values.httpsPort }}
   selector:

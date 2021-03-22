@@ -27,14 +27,12 @@ spec:
   tls:
     insecureEdgeTerminationPolicy: Redirect
     termination: reencrypt
-    destinationCACertificate: |-
-      -----BEGIN CERTIFICATE-----
-      [...]
-      -----END CERTIFICATE-----
   to:
     kind: Service
     name: {{ .Values.service_name }}
     weight: 100
+  port:
+    targetPort: https
   wildcardPolicy: None
 status:
   ingress: []
