@@ -29,12 +29,6 @@ tolerations:
   key: node-role.kubernetes.io/infra 
   operator: Exists
 
-## Cluster info
-cluster_domain: "cluster.local"
-cluster_ca_domain: "mycluster.icp"
-cluster_address: "127.0.0.1"
-cluster_internal_address: "127.0.0.1"
-
 ## Use BYO cert
 # tls_secret: management-ingress-tls-secret
 
@@ -60,9 +54,6 @@ enable_impersonation: false
 
 ## Kubernetes port
 apiserver_secure_port: 8001
-
-## Is used internally for externally
-internal_use: false
 
 service_name: "management-ingress"
 
