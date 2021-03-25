@@ -19,6 +19,8 @@ metadata:
     app.kubernetes.io/managed-by: {{ .Release.Service }}
     app.kubernetes.io/name: {{ .Release.Name }}
     helm.sh/chart: {{ .Chart.Name }}
+  annotations:
+    service.beta.openshift.io/serving-cert-secret-name: {{ .Release.Name }}-tls-secret
   name: {{ .Values.service_name }}
   namespace: {{ .Release.Namespace }}
 spec:
@@ -26,5 +28,8 @@ spec:
     - name: https
       port: 443
       targetPort: {{ .Values.oauth_proxy.httpsPort }}
+    - name: ingress
+      port: {{ .Values.httpsPort }}
+      targetPort: {{ .Values.httpsPort }}
   selector:
     k8s-app: {{ .Release.Name }}

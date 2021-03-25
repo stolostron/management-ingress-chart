@@ -26,11 +26,13 @@ spec:
   subdomain: {{ .Values.console_route.subdomain }}
   tls:
     insecureEdgeTerminationPolicy: Redirect
-    termination: passthrough
+    termination: reencrypt
   to:
     kind: Service
     name: {{ .Values.service_name }}
     weight: 100
+  port:
+    targetPort: https
   wildcardPolicy: None
 status:
   ingress: []
