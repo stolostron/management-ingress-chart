@@ -6,6 +6,41 @@
 # Copyright Contributors to the Open Cluster Management project
 ---
 
+{{ if (lookup "v1" "Secret" .Release.Namespace "byo-ingress-tls-secret") }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.console_route.name }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ .Release.Name }}
+    chart: {{ .Chart.Name }}-{{ .Chart.Version }}
+    component: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/name: {{ .Release.Name }}
+    helm.sh/chart: {{ .Chart.Name }}
+  annotations:
+    route.openshift.io/termination: "reencrypt"
+    route.openshift.io/insecureEdgeTerminationPolicy: "Redirect"
+spec:
+  rules:
+  - host: {{ template "management-ingress.consoleRouteHost" . }}
+    http:
+      paths:
+      - pathType: "ImplementationSpecific"
+        backend:
+          service:
+            name: {{ .Values.service_name }}
+            port:
+              name: https
+  tls:
+  - hosts:
+    - {{ template "management-ingress.consoleRouteHost" . }}
+    secretName: byo-ingress-tls-secret
+{{ else }}
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
@@ -36,3 +71,4 @@ spec:
   wildcardPolicy: None
 status:
   ingress: []
+{{ end }}
