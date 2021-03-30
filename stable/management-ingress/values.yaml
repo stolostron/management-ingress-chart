@@ -60,12 +60,12 @@ service_name: "management-ingress"
 oauth_proxy:
   httpsPort: 9443
 
-cluster_basedomain: ""
-
 oauth_client:
   id: multicloudingress
   secret: multicloudingresssecret
   callback_url: "/oauth/callback"
+
+cluster_basedomain: ""
 
 console_route:
   name: multicloud-console
