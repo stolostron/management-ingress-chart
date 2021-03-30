@@ -6,6 +6,9 @@
 # Copyright Contributors to the Open Cluster Management project
 ---
 
+{{- $caSecret := (lookup "v1" "Secret" .Release.Namespace "byo-ca-cert" ) }}
+{{- $certSecret := (lookup "v1" "Secret" .Release.Namespace "byo-ingress-tls-secret" ) }}
+
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
@@ -27,6 +30,25 @@ spec:
   tls:
     insecureEdgeTerminationPolicy: Redirect
     termination: reencrypt
+{{- if $caSecret }}
+{{- $caCert := (b64dec (get $caSecret.data "tls.crt")) -}}
+{{- if $caCert }}
+    caCertificate: |-
+      {{- $caCert | nindent 6 -}}
+{{- end }}
+{{- end }}
+{{- if $certSecret }}
+{{- $certCert := (b64dec (get $certSecret.data "tls.crt")) -}}
+{{- if $certCert }}
+    certificate: |-
+      {{- $certCert | nindent 6 -}}
+{{- end }}
+{{- $certKey := (b64dec (get $certSecret.data "tls.key")) -}}
+{{- if $certKey }}
+    key: |-
+      {{- $certKey | nindent 6 -}}
+{{- end }}
+{{- end }}
   to:
     kind: Service
     name: {{ .Values.service_name }}
