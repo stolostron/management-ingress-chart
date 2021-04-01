@@ -122,11 +122,11 @@ spec:
             - name: APISERVER_SECURE_PORT
               value: "{{ .Values.apiserver_secure_port }}"
             - name: CLUSTER_DOMAIN
-              value: {{ .Values.cluster_domain }}
+              value: "{{ .Values.cluster_basedomain }}"
             - name: HOST_HEADERS_CHECK_ENABLED
               value: "{{ .Values.host_headers_check_enabled }}"
             - name: ALLOWED_HOST_HEADERS
-              value: "{{ .Values.allowed_host_headers }} {{ .Release.Name }} {{ .Values.service_name }} {{ template "management-ingress.consoleRouteHost" . }}"
+              value: "{{ .Values.allowed_host_headers }} {{ .Release.Name }} {{ .Values.service_name }} {{ .Values.service_name }}.{{ .Release.Namespace }}.svc {{ template "management-ingress.consoleRouteHost" . }}"
             - name: POD_NAME
               valueFrom:
                 fieldRef:
