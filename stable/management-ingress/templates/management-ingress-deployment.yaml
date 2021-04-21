@@ -2,7 +2,8 @@
 # 5737-E67
 # @ Copyright IBM Corporation 2016, 2020 All Rights Reserved
 # US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
-
+#
+# Copyright Contributors to the Open Cluster Management project
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -64,8 +65,8 @@ spec:
       containers:
         - args:
           - --provider=openshift
-          - --upstream=https://localhost:{{ .Values.httpsPort }}
-          - --upstream-ca=/etc/tls/ca/tls.crt
+          - --upstream=https://{{ .Values.service_name }}.{{ .Release.Namespace }}.svc:{{ .Values.httpsPort }}
+          - --upstream-ca=/etc/tls/ca/service-ca.crt
           - --https-address=:{{ .Values.oauth_proxy.httpsPort }}
           - --client-id={{ .Values.oauth_client.id }}
           - --client-secret={{ .Values.oauth_client.secret }}
@@ -110,7 +111,7 @@ spec:
           - mountPath: /etc/tls/private
             name: tls-secret
           - mountPath: /etc/tls/ca
-            name: ca-tls-secret
+            name: ca-tls
           {{- if .Values.hubconfig.customCAConfigmap }}
           - mountPath: /etc/tls/ocp
             name: ocp-custom-ca
@@ -121,11 +122,11 @@ spec:
             - name: APISERVER_SECURE_PORT
               value: "{{ .Values.apiserver_secure_port }}"
             - name: CLUSTER_DOMAIN
-              value: {{ .Values.cluster_domain }}
+              value: "{{ .Values.cluster_basedomain }}"
             - name: HOST_HEADERS_CHECK_ENABLED
               value: "{{ .Values.host_headers_check_enabled }}"
             - name: ALLOWED_HOST_HEADERS
-              value: "{{ .Values.allowed_host_headers }} {{ .Release.Name }} {{ .Values.service_name }} {{ template "management-ingress.consoleRouteHost" . }}"
+              value: "{{ .Values.allowed_host_headers }} {{ .Release.Name }} {{ .Values.service_name }} {{ .Values.service_name }}.{{ .Release.Namespace }}.svc {{ template "management-ingress.consoleRouteHost" . }}"
             - name: POD_NAME
               valueFrom:
                 fieldRef:
@@ -177,11 +178,7 @@ spec:
             - /run.sh
             {{- end }}
             - /management-ingress
-            {{ if (lookup "v1" "Secret" .Release.Namespace "byo-ingress-tls-secret") }}
-            - --default-ssl-certificate=$(POD_NAMESPACE)/byo-ingress-tls-secret
-            {{ else }}
             - --default-ssl-certificate=$(POD_NAMESPACE)/{{ .Release.Name }}-tls-secret
-            {{ end }}
             - --configmap=$(POD_NAMESPACE)/{{ .Release.Name }}
             - --http-port={{ .Values.httpPort }}
             - --https-port={{ .Values.httpsPort }}
@@ -206,19 +203,11 @@ spec:
         - name: tls-secret
           secret:
             defaultMode: 420
-            {{ if (lookup "v1" "Secret" .Release.Namespace "byo-ingress-tls-secret") }}
-            secretName: byo-ingress-tls-secret
-            {{ else }}
             secretName: {{ .Release.Name }}-tls-secret
-            {{ end }}
-        - name: ca-tls-secret
-          secret:
+        - name: ca-tls
+          configMap:
             defaultMode: 420
-            {{ if (lookup "v1" "Secret" .Release.Namespace "byo-ca-cert") }}
-            secretName: byo-ca-cert
-            {{ else }}
-            secretName: {{ .Values.cert.ca }}
-            {{ end }}
+            name: {{ .Release.Name }}-ca
         {{- if .Values.hubconfig.customCAConfigmap }}
         - name: ocp-custom-ca
           configMap:

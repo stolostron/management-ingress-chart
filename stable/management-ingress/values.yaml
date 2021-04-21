@@ -1,3 +1,4 @@
+# Copyright Contributors to the Open Cluster Management project
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -28,22 +29,8 @@ tolerations:
   key: node-role.kubernetes.io/infra 
   operator: Exists
 
-cert:
-  issuer:
-    name: multicloud-ca-issuer
-    kind: Issuer
-  ca: multicloud-ca-cert
-  duration: 2160h
-  renewBefore: 24h
-
-## Cluster info
-cluster_domain: "cluster.local"
-cluster_ca_domain: "mycluster.icp"
-cluster_address: "127.0.0.1"
-cluster_internal_address: "127.0.0.1"
-
 ## Use BYO cert
-# tls_secret: icp-management-ingress-tls-secret
+# tls_secret: management-ingress-tls-secret
 
 ## Whether to enable host header check
 host_headers_check_enabled: false
@@ -68,20 +55,17 @@ enable_impersonation: false
 ## Kubernetes port
 apiserver_secure_port: 8001
 
-## Is used internally for externally
-internal_use: false
-
 service_name: "management-ingress"
 
 oauth_proxy:
   httpsPort: 9443
 
-cluster_basedomain: ""
-
 oauth_client:
   id: multicloudingress
   secret: multicloudingresssecret
   callback_url: "/oauth/callback"
+
+cluster_basedomain: ""
 
 console_route:
   name: multicloud-console
