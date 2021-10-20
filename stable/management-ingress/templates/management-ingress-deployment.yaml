@@ -80,7 +80,7 @@ spec:
           - --cookie-refresh=8h0m0s
           - --tls-cert=/etc/tls/private/tls.crt
           - --tls-key=/etc/tls/private/tls.key
-          - --cookie-secret={{ randAlphaNum 16 | b64enc }}
+          - --cookie-secret=NGRlV1B4NnFFS25VTkhxSg==
           - --openshift-ca=/etc/pki/tls/cert.pem
           - --openshift-ca=/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
           {{- if .Values.hubconfig.customCAConfigmap }}
