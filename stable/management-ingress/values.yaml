@@ -7,7 +7,7 @@ org: open-cluster-management
 pullSecret: null
 
 global:
-  pullPolicy: Always
+  pullPolicy: IfNotPresent
   imageOverrides:
     management_ingress: ""
     oauth_proxy: ""
