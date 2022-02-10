@@ -55,13 +55,13 @@ spec:
     spec:
       serviceAccountName: {{ .Release.Name }}-sa
       hostNetwork: {{ .Values.hostNetwork }}
-{{- if .Values.hostNetwork }}
+      {{- if .Values.hostNetwork }}
       dnsPolicy: ClusterFirstWithHostNet
-{{- end }}
-    {{- if .Values.pullSecret }}
+      {{- end }}
+      {{- if .Values.pullSecret }}
       imagePullSecrets:
         - name: {{ .Values.pullSecret }}
-    {{- end }}
+      {{- end }}
       containers:
         - args:
           - --provider=openshift
@@ -185,7 +185,7 @@ spec:
           imagePullPolicy: {{ .Values.global.pullPolicy }}
           name: {{ .Release.Name }}
           resources:
-{{ toYaml .Values.resources | indent 12 }}
+          {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
           {{- if .Values.enable_impersonation }}
           - mountPath: /var/run/secrets/platform-auth
@@ -216,15 +216,15 @@ spec:
               - key: ca-bundle.crt
                 path: tls.crt
         {{- end }}
-    {{- with .Values.hubconfig.nodeSelector }}
+      {{- with .Values.hubconfig.nodeSelector }}
       nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
       {{- with .Values.affinity }}
       affinity:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- if .Values.tolerations }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.hubconfig.tolerations }}
       tolerations:
-{{ toYaml .Values.tolerations | indent 8 }}
-    {{- end }}
+      {{- toYaml . | nindent 8 }}
+      {{- end }}
